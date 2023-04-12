@@ -11,7 +11,7 @@
    cmd 창에 들어가서 `npm install -g yarn` 입력하여 설치 
 5. expo 설치
 
-   아까 yarn 설치했던 곳 밑에다 바로 명령어 입력하여 expo 설치 
+   아까 yarn 설치했던 cmd 창에다 바로 명령어 입력하여 expo 설치 
   `npm install -g expo-cli`
   
 6. expo 서비스 가입  https://expo.io/signup
@@ -21,3 +21,4 @@
     
     비밀번호 입력하라고 하면 비밀번호 입력하기
    
+각자 컴퓨터에서 expo 활용할 수 있는 환경 된 것임으로 git에서 pull 받아서 코드 보기
