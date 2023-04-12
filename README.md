@@ -22,3 +22,26 @@
     비밀번호 입력하라고 하면 비밀번호 입력하기
    
 각자 컴퓨터에서 expo 활용할 수 있는 환경 된 것임으로 git에서 pull 받아서 코드 보기
+
+
+---
+1. 코드 들어갈 폴더 만들기
+2. 폴더에서 Visual Studio Code 열고, terminal 창 열기
+3. terminal 종류 cmd에서 `expo init capstone-design-sevenDays` 입력하기
+
+   (capstone-design-sevenDays)라는 폴더가 생기게 되는 것)
+
+4. 엔터 키 누르면 사진 같은 화면 뜸. `blank` 선택하고 엔터 
+
+![image](https://user-images.githubusercontent.com/88430021/231447166-36e6811a-4709-40b5-88d1-08053b912350.png)
+
+5. 현재 위치 확인하고, capstone-design-sevenDays로 cd 명령어 이용하여 이동하기 `cd capstone-design-sevenDays` 
+
+![image](https://user-images.githubusercontent.com/88430021/231447394-57128415-db46-4cf7-ab00-7be27ba174a5.png)
+
+6. terminal 에서 `expo start` 누르면 expo 가 실행됨. terminal에 **큐알 코드** 나옴. 
+7. 큐알을 실행하기 위해서는 플레이 스토어, 앱스토어에서 **`expo Go`** 앱을 다운 받아야 함. 
+8. 핸드폰으로 큐알 코드 찍으면 핸드폰으로 작성한 앱 화면 확인 가능
+
+   🌟🌟🌟여기서 주의해야 할 점은 컴퓨터의 네트워크와 핸드폰의 네트워크가 동일한 망에 있어야 한다는 점🌟🌟🌟  (이 말은, 동일한 와이파이를 사용해야 한다.)
+
