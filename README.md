@@ -28,30 +28,45 @@
 
 ---
 1. 프로젝트 폴더 만들기
-으로 git에서 pull 받아서 코드 보기
+
 2. 폴더에서 Visual Studio Code 열고, terminal 창 열기
-3. terminal에서 `expo init capstone-design-sevenDays` 입력하기
+3. (git이 설치되어 있다는 가정 하에) terminal 창에서 Git Bash 창 열기 
 
-   (capstone-design-sevenDays)라는 폴더가 생기게 되는 것)
+   ![image](https://user-images.githubusercontent.com/88430021/231846204-0dfa7d12-5688-477d-b94d-789e49eabba2.png)
 
-4. 엔터 키 누르면 사진 같은 화면 뜸. `blank` 선택하고 엔터 
+4. `git clone https://github.com/yerimoh10/to_do_Maeili.git` 입력하기
+   
+   입력하면 아래 사진 처럼 만든 폴더 아래에 git에서 받은 폴더가 생성됨
+   
+   ![image](https://user-images.githubusercontent.com/88430021/231846713-e51398c5-71af-4288-b794-cfb7faa088da.png)
 
-![image](https://user-images.githubusercontent.com/88430021/231447166-36e6811a-4709-40b5-88d1-08053b912350.png)
+5. terminal 창 중에서 cmd 창으로 들어가 `cd to_do_Maeili` 입력하여 위치를 이동한다.
+   
+   ![image](https://user-images.githubusercontent.com/88430021/231847045-4f36cb33-bcb9-4ed9-951d-21d982d7a61b.png)
+   
+   이동 후  --> ![image](https://user-images.githubusercontent.com/88430021/231847524-d760df98-366f-4cb2-ac7e-94d83da15fcb.png)
 
-5. 현재 위치 확인하고, capstone-design-sevenDays로 cd 명령어 이용하여 이동하기 `cd capstone-design-sevenDays` 
 
-![image](https://user-images.githubusercontent.com/88430021/231447394-57128415-db46-4cf7-ab00-7be27ba174a5.png)
+6. 폴더에 있는 파일 중 `yarn.lock` 파일을 삭제한다.
+   
+   ![image](https://user-images.githubusercontent.com/88430021/231847787-99717748-bc08-4486-aec0-68978a0211ae.png)
 
-6. terminal 에서 `expo start` 누르면 expo 가 실행됨. 
+7. terminal - cmd 창에서 `npm install` 해준다.
+   
+   ![image](https://user-images.githubusercontent.com/88430021/231848100-a1eb9ed9-286f-43b2-b6c6-2f70ed7a43a3.png)
+
+
+8. terminal - cmd 에서 `expo start` 입력하면르면 expo 가 실행됨. 
 
    ※※주의※※ 
 
-   `expo start` 명령어는 Visual Studio Code의 terminal 종류 중 `cmd`에서 입력해야 실행됨!!
-   ![image](https://user-images.githubusercontent.com/88430021/231456544-2022a87d-5447-4187-8dab-30db3796c702.png)
+   `expo start` 명령어는 꼭!! Visual Studio Code의 terminal 종류 중 `cmd`에서 입력해야 실행됨!! 
+   
+   명령어 입력할 떄 terminal 창을 크게 만들고 명령어 실행하는게 큐알코드가 짤리지 않음!! 
 
+9. 큐알을 실행하기 위해서는 플레이 스토어, 앱스토어에서 **`expo Go`** 앱을 다운 받아야 함. 
+10. 핸드폰으로 큐알 코드 찍으면 핸드폰으로 작성한 앱 화면 확인 가능
 
-7. cmd 창에서 명령어 실행하면 **큐알 코드** 나옴. 
-8. 큐알을 실행하기 위해서는 플레이 스토어, 앱스토어에서 **`expo Go`** 앱을 다운 받아야 함. 
-9. 핸드폰으로 큐알 코드 찍으면 핸드폰으로 작성한 앱 화면 확인 가능
-
-   🌟🌟🌟여기서 주의해야 할 점은 컴퓨터의 네트워크와 핸드폰의 네트워크가 동일한 망에 있어야 한다는 점🌟🌟🌟  (이 말은, 동일한 와이파이를 사용해야 한다.)
+   🌟🌟🌟여기서 주의해야 할 점은 컴퓨터의 네트워크와 핸드폰의 네트워크가 동일한 망에 있어야 한다는 점🌟🌟🌟 
+   
+   (이 말은, 동일한 와이파이를 사용해야 한다.)
