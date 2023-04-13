@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, TextInput,StyleSheet, Button, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, FlatList, TextInput,StyleSheet, Button, Text } from 'react-native';
 import * as FileSystem from 'expo-file-system';
-
-//import { ScrollView } from 'react-native-web';
 
 const ToDoListApp = () => {
   const [todos, setTodos] = useState([]);
@@ -61,22 +59,18 @@ const ToDoListApp = () => {
   }, [todos]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.addView}>
+    <View style={styles.container}>
       <TextInput
-        style={styles.inputBox}
         placeholder="Enter a to-do item"
         value={newTodo}
         onChangeText={setNewTodo}
       />
-      <Button style={styles.addBtn} title="  👈  " onPress={handleAddTodo} />
-      </View>
-      
-      <FlatList style={styles.listSty}
+      <Button title="Add" onPress={handleAddTodo} />
+      <FlatList
         data={todos}
         renderItem={({ item, index }) => (
-          <View style={styles.listView}>
-            <Text style={styles.textSty}>{item}</Text>
+          <View>
+            <Text>{item}</Text>
             <Button
               title="Edit"
               onPress={() => {
@@ -84,47 +78,16 @@ const ToDoListApp = () => {
               }}
             />
             <Button title="Delete" onPress={() => handleDeleteTodo(index)} />
-            <Button title=" 루틴 " onPress={() => handleDeleteTodo(index)} />
           </View>
         )}
         keyExtractor={(item, index) => index.toString()}
       />
-      <View></View>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
     container: {
-        margin: 30,
-        marginBottom: 40,
-        paddingBottom: 20
-    },
-    // scrollSty: {
-    //   marginBottom: 20
-    // },
-    addView:{
-      flexDirection: 'row',
-      marginTop: 50,
-      marginBottom: 20
-    },
-    inputBox: {
-      flex: 2,
-      borderWidth:1
-    },
-    addBtn: {
-      flex: 1,
-      fontWeight: 700,
-      padding: 60
-    },
-    listSty: {
-      paddingBottom: 20,
-      marginBottom: 40
-    }, 
-    listView: {
-      flexDirection: 'row'
-    },
-    textSty: {
-      flex: 1
+        margin: 40
     }
 })
 export default ToDoListApp;
