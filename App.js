@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MainPage from './pages/MainPage';
+// import MainPage from './pages/MainPage';
 import TodoApp  from './pages/ToDoListApp';
 
 
