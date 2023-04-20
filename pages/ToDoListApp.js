@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, TextInput,StyleSheet, Button, Text, Modal, SafeAreaView, Pressable, Alert } from 'react-native';
+import { View, FlatList, TextInput,StyleSheet, Button, Text, Modal, SafeAreaView, Pressable, Alert,TouchableOpacity } from 'react-native';
 import * as FileSystem from 'expo-file-system';
-import { TouchableOpacity } from 'react-native-web';
+
+//import { TouchableOpacity } from 'react-native-web';
 
 const ToDoListApp = () => {
   const [todos, setTodos] = useState([]);
@@ -9,7 +10,9 @@ const ToDoListApp = () => {
   const [edited, setEdited] = useState('');
   // const [modalInfo, setModalInfo] = React.useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
-  
+  const [editTitle, setEditTitle] = useState('');
+  const [editID, setEditID] = useState(0);
+
   useEffect(() => {
     // Load saved todos from JSON file on component mount
     loadTodosFromJson();
@@ -66,15 +69,31 @@ const ToDoListApp = () => {
     // const updatedTodos = [...todos];
     // updatedTodos[index] = updatedTodo;
     //editTitle = updatedTodo;
-    console.log("tiottlelel: ", updatedTodo)
+    setEditTitle(updatedTodo);
     setModalVisible(true);
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, title: edited } : todo // 3항 연산
-    );
-    setTodos(updatedTodos);
-    setEdited('');
+    setEditID(id);
+    
+    // console.log("edited: ", edited)
+    // console.log("editTitle: ", editTitle)
+    // const updatedTodos = todos.map((todo) =>
+    //   todo.id === id ? { ...todo, title: edited } : todo // 3항 연산
+    // );
+    // setTodos(updatedTodos);
+    // setEdited('');
   };
-
+  const realEdit = () => {
+    if (edited.trim()) {
+      console.log("edited: ", edited)
+      console.log("editTitle: ", editTitle)
+      const updatedTodos = todos.map((todo) =>
+        todo.id === editID ? { ...todo, title: edited } : todo // 3항 연산
+      );
+      setTodos(updatedTodos);
+      setEdited('');
+      //setEditTitle('');
+      setModalVisible(!modalVisible);
+    }
+  }
   const handleDeleteTodo = (id) => {
     //const updatedTodos = [...todos];
     //updatedTodos.splice(index, 1);
@@ -111,14 +130,22 @@ const ToDoListApp = () => {
          <View style={styles.modalEditView}>
           <View style={styles.modalView}>
             <TextInput
-                value={edited}
+                //value={edited}//edited
+                defaultValue= {editTitle}
                 style={styles.editSty}
                 onChangeText={setEdited}
+                //onPressIn={() => console.log("edit: ", editTitle)}
             ></TextInput>
+            <View style={styles.comcanBtn}>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => realEdit()}
+            ><Text style={styles.textStyle}>  완료  </Text></Pressable>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
-            ><Text style={styles.textStyle}>Hide Modal</Text></Pressable>
+            ><Text style={styles.textStyle}>  취소  </Text></Pressable>
+            </View>
           </View>
           </View>
       </Modal>
@@ -129,9 +156,13 @@ const ToDoListApp = () => {
         renderItem={({ item, index }) => (
           <View >
             <View style={styles.listView}>
-              <Text style={styles.textSty}>{item.title}</Text>
+
+                <Text style={[styles.textSty, item.completed ? styles.completedTotoTitle : null]}
+                onPress={() => toggleTodoCompletion(item.id)}>{item.title}</Text>
+              
               <Button
-                title="Edit"
+                //value={edited}
+                title='EDIT'
                 onPress={() => {handleEditTodo(item.id, item.title)}}
                   //() => {handleEditTodo(item.id, item.title)
                   // Show edit modal or navigate to edit screen
@@ -185,11 +216,16 @@ const styles = StyleSheet.create({
   },
   buttonClose: {
     backgroundColor: '#2196F3',
+    flex: 1,
+    height: 50,
+    margin: 20,
+    marginTop: 50
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: 15
   },
   // scrollSty: {
   //   marginBottom: 20
@@ -216,7 +252,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   textSty: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    textAlignVertical: 'center'
   },
   editSty: {
     borderWidth: 1,
@@ -225,6 +263,14 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     justifyContent: 'center',
     
+  },
+  completedTotoTitle: {
+    textDecorationLine: 'line-through',
+    backgroundColor: '#8E9DA5'
+  },
+  comcanBtn:{ // 완료 취소 버튼
+    flexDirection: 'row',
+    flex: 1
   }
 })
 export default ToDoListApp;
