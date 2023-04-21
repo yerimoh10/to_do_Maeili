@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, TextInput,StyleSheet, Button, Text, Modal, SafeAreaView, Pressable, Alert,TouchableOpacity } from 'react-native';
 import * as FileSystem from 'expo-file-system';
+import Routine from './RoutinePage';
 
 //import { TouchableOpacity } from 'react-native-web';
 
@@ -12,6 +13,7 @@ const ToDoListApp = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editID, setEditID] = useState(0);
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     // Load saved todos from JSON file on component mount
@@ -70,7 +72,7 @@ const ToDoListApp = () => {
     // updatedTodos[index] = updatedTodo;
     //editTitle = updatedTodo;
     setEditTitle(updatedTodo);
-    setModalVisible(true);
+    setModalVisible(!modalVisible);
     setEditID(id);
     
     // console.log("edited: ", edited)
@@ -169,7 +171,8 @@ const ToDoListApp = () => {
                 //}}
               />
               <Button title="Delete" onPress={() => handleDeleteTodo(item.id)} />
-              <Button title=" 루틴 " />
+              <Routine setValue={setValue}/>
+              {/*{value} 사용해서 자식 컴포넌트에서 넘어오는 값 사용할 수 있음 */}
             </View>
             
           </View>
