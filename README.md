@@ -47,7 +47,7 @@
    이동 후  --> ![image](https://user-images.githubusercontent.com/88430021/231847524-d760df98-366f-4cb2-ac7e-94d83da15fcb.png)
 
 
-6. 폴더에 있는 파일 중 `yarn.lock` 파일을 삭제한다.
+6. 폴더에 있는 파일 중 `yarn.lock` , `package-lock.json` (있으면) 파일을 삭제한다.
    
    ![image](https://user-images.githubusercontent.com/88430021/231847787-99717748-bc08-4486-aec0-68978a0211ae.png)
 
