@@ -1,32 +1,19 @@
 import React, { useState, useEffect, Component } from 'react';
-import { View, Button, StyleSheet, Text, Modal, Pressable, TouchableOpacity, ScrollView  } from 'react-native';
+import { View, Button, StyleSheet, Text, Modal, Pressable, TouchableOpacity, ScrollView, Alert  } from 'react-native';
 import { TextInput } from 'react-native-web';
 import Day from './DaySelectPage';
+import Time from './TimeSelectPage';
+import Week from './WeekSelectPage';
+import Month from './MonthSelectPage';
 
-// class Drop extends Component {
-//     render() {
-//         let data = [{
-//             value: 'Banana',
-//           }, {
-//             value: 'Mango',
-//           }, {
-//             value: 'Pear',
-//           }];
-//         return (
-//             <Dropdown 
-//                 label = 'favorite'
-//                 data={data}
-//             />
-//         );
-//     }
-// }
-
+// 루틴 설정 페이지
 
 const RoutinePage = (props) => {
     //console.log(props.value)
     const [modalVisible, setModalVisible] = useState(false);
     const [value, setValue] = useState('');
-    const [dayfromChild, setdayfromChild] = useState('');
+    const [dayfromChild, setDayfromChild] = useState('');
+    const [timefromChild, setTimefromChild] = useState('');
     
     function sendData(){ // 완료 버튼 때 실행되게 만들기
         props.setValue(dayfromChild);
@@ -48,21 +35,23 @@ const RoutinePage = (props) => {
                     <View style={styles.modalView}>
                         <Text style={styles.header}>루틴 설정</Text>
                         <View style={styles.contentsList}>
-                            <Text style={styles.contentText}>시간 Time </Text>
+                          {/*<View style={styles.viewsty}></View>*/}
+                            <Time setValue={setTimefromChild}></Time>
 
-                            <View style={styles.dayviewsty}>
-                                <Text style={styles.contentText}>요일 Day </Text>
-                                <View style={styles.dayChildsty}><Day setValue={setdayfromChild} ></Day></View>
-                                
-                            </View>
-                            <Text > - 선택한 요일은 {dayfromChild}</Text>
-                            <Text style={styles.contentText}>주 Week </Text>
-                            <Text style={styles.contentText}>달 Month </Text>
+                            
+                                {/*<Text style={styles.contentText}>요일 Day </Text>
+                            <View style={styles.dayChildsty}></View>*/}
+                            <Day setValue={setDayfromChild}></Day>
+                            <Week></Week>
+                            <Month></Month>
+                            
                         </View>
+                        <Text> - 반복할 시간 : {timefromChild}</Text>
+                        <Text > - 선택한 요일은 {dayfromChild}</Text>
 
                         
 
-                    <View style={styles.comcanBtn}>
+                    <View style={styles.comcanBtn}>{/* complete/cancel button*/}
                     <TouchableOpacity
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => setModalVisible(!modalVisible)}>
@@ -87,6 +76,8 @@ const RoutinePage = (props) => {
         </View>
     );
 };
+
+// 루틴 설정 페이지 화면 디자인 변경하려면 여기서! 
 const styles = StyleSheet.create({
     modalRoutineView: {
         flex: 1,
@@ -136,6 +127,8 @@ const styles = StyleSheet.create({
     },
     contentsList:{
         flex: 1,
+        flexDirection: 'row',
+        
     },
     contentText: {
         flexGrow: 1,
@@ -145,7 +138,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         padding: 10,
     },
-    dayviewsty: {
+    viewsty: {
         flexDirection: 'row',
         borderWidth: 1,
         height: 40,

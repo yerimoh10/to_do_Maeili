@@ -76,7 +76,7 @@ const ToDoListApp = () => {
       //setEditTitle('');
       setModalVisible(!modalVisible);
     }
-  }
+  };
   const handleDeleteTodo = (id) => {    // delete 버튼 눌렀을 떄 실행되는 함수
     //const updatedTodos = [...todos];
     //updatedTodos.splice(index, 1);
@@ -152,7 +152,7 @@ const ToDoListApp = () => {
                 //}}
               />
               <Button title="Delete" onPress={() => handleDeleteTodo(item.id)} />
-              <Routine setValue={setValue}/>{/* 자식컴포넌트에서 직접 그림 */}
+              <Routine />{/* 자식컴포넌트에서 직접 그림 */}
               {/*{value} 사용해서 자식 컴포넌트에서 넘어오는 값 사용할 수 있음 */}
             </View>
             
