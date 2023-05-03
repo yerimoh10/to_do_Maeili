@@ -48,39 +48,42 @@ const DaySelectPage = (props) => {
                 }}>
                     <View style={styles.daymodalView}>
                         <View style={styles.scrollSty}>
+                        <Text style={styles.chooseDay}>반복할 요일을 선택하세요</Text>
                             <ScrollView>{/*contentContainerStyle={{flexGrow:1}}*/}
-                                <TouchableOpacity style={[styles.weeksty, dayValue == 'Monday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
+                                
+                                <TouchableOpacity style={[styles.daysty, dayValue == 'Monday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
                                     onPress={() => days('Mon')}>
-                                    <Text >Mon</Text> 
+                                    <Text style={styles.dayTextsty}>Mon</Text> 
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.weeksty, dayValue == 'Tuesday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
+                                <TouchableOpacity style={[styles.daysty, dayValue == 'Tuesday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
                                     onPress={() => days('Tue')} >
-                                    <Text>Tue</Text> 
+                                    <Text style={styles.dayTextsty}>Tue</Text> 
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.weeksty, dayValue == 'Wednesday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
+                                <TouchableOpacity style={[styles.daysty, dayValue == 'Wednesday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
                                     onPress={() => days('Wed')}>
-                                    <Text>Wed</Text> 
+                                    <Text style={styles.dayTextsty}>Wed</Text> 
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.weeksty, dayValue == 'Thursday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
+                                <TouchableOpacity style={[styles.daysty, dayValue == 'Thursday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
                                     onPress={() => days('Thu')}>
-                                    <Text>Thu</Text> 
+                                    <Text style={styles.dayTextsty}>Thu</Text> 
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.weeksty, dayValue == 'Friday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
+                                <TouchableOpacity style={[styles.daysty, dayValue == 'Friday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
                                     onPress={() => days('Fri')}>
-                                    <Text>Fri</Text>  
+                                    <Text style={styles.dayTextsty}>Fri</Text>  
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.weeksty, dayValue == 'Saturday'? styles.completedTotoTitle : !styles.completedTotoTitle]}
+                                <TouchableOpacity style={[styles.daysty, dayValue == 'Saturday'? styles.completedTotoTitle : !styles.completedTotoTitle]}
                                     onPress={() => days('Sat')}>
-                                    <Text>Sat</Text>  
+                                    <Text style={styles.dayTextsty}>Sat</Text>  
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.weeksty, dayValue == 'Sunday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
+                                <TouchableOpacity style={[styles.daysty, dayValue == 'Sunday'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
                                     onPress={() => days('Sun')}>
-                                    <Text>Sun</Text> 
+                                    <Text style={styles.dayTextsty}>Sun</Text> 
                                 </TouchableOpacity>   
-                                <TouchableOpacity 
-                                    style={[styles.button, styles.buttonClose]} 
-                                    onPress={()=>complete()}><Text style={styles.textClose}> 닫기 </Text></TouchableOpacity>
+                                
                             </ScrollView>
+                            <TouchableOpacity 
+                                    style={styles.buttonClose} 
+                                    onPress={()=>complete()}><Text style={styles.textClose}> 닫기 </Text></TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
@@ -100,8 +103,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 15,
         alignItems: 'center',
-        height: 200,
-        width: 180,
+        height: 300,
+        width: 280,
         //borderWidth:1,
         shadowColor: '#000',
         shadowOffset: {
@@ -112,18 +115,20 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
     },
-    weeksty:{
+    daysty:{
         borderWidth: 1,
         width: 150,
         height: 30,
+        margin: 1,
         alignItems: 'center',
         
     },
+    
     buttonClose: {
         backgroundColor: '#2196F3',
         height: 40,
-        margin: 40,
-        marginTop: 20
+        width: 120,
+        marginTop: 10,
     },
     textClose: {
         color: 'white',
@@ -146,7 +151,14 @@ const styles = StyleSheet.create({
         margin: 10,
         width: 60,
         marginTop: 20
-    }
+    },
+    dayTextsty: {
+        marginTop: 4,
+    },
+    chooseDay: {
+        fontSize: 20,
+        marginBottom: 10,
+    },
 });
 
 export default DaySelectPage;

@@ -14,12 +14,20 @@ const RoutinePage = (props) => {
     const [value, setValue] = useState('');
     const [dayfromChild, setDayfromChild] = useState('');
     const [timefromChild, setTimefromChild] = useState('');
+    const [weekfromChild, setWeekfromChild] = useState('');
+    const [monthfromChild, setMonthfromChild] = useState('');
+    const [whichRoutine, setWhichRoutine] = useState('');
     
     function sendData(){ // 완료 버튼 때 실행되게 만들기
         props.setValue(dayfromChild);
     }
     
-   
+    const routineValue = (rvalue) => {
+        switch(rvalue){
+            case 'Time':
+                return setWhichRoutine('Time')
+        }
+    }
 
     return (
         <View>
@@ -42,14 +50,15 @@ const RoutinePage = (props) => {
                                 {/*<Text style={styles.contentText}>요일 Day </Text>
                             <View style={styles.dayChildsty}></View>*/}
                             <Day setValue={setDayfromChild}></Day>
-                            <Week></Week>
-                            <Month></Month>
+                            <Week setValue={setWeekfromChild}></Week>
+                            <Month setValue={setMonthfromChild}></Month>
                             
                         </View>
                         <Text> - 반복할 시간 : {timefromChild}</Text>
                         <Text > - 선택한 요일은 {dayfromChild}</Text>
+                        <Text> - 반복할 주 : {weekfromChild}주</Text>
+                        <Text> - 반복할 달 : {monthfromChild}월 </Text>
 
-                        
 
                     <View style={styles.comcanBtn}>{/* complete/cancel button*/}
                     <TouchableOpacity
@@ -107,7 +116,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50,
         margin: 20,
-        marginTop: 100
+        marginTop: 50
       },
     textStyle: {
         color: 'white',
