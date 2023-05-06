@@ -6,7 +6,8 @@ const MonthSelectPage = (props) => {
     const [monthValue, setMonthValue] = useState('');
 
     function sendData(){
-        props.setValue(monthValue);
+        let value = 'Month, '+ monthValue;
+        props.setValue(value);
     };
 
     const month = (value) => {

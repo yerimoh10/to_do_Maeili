@@ -12,23 +12,64 @@ const RoutinePage = (props) => {
     //console.log(props.value)
     const [modalVisible, setModalVisible] = useState(false);
     const [value, setValue] = useState('');
-    const [dayfromChild, setDayfromChild] = useState('');
+    const [dayfromChild, setDayfromChild] = useState('월');
     const [timefromChild, setTimefromChild] = useState('');
     const [weekfromChild, setWeekfromChild] = useState('');
     const [monthfromChild, setMonthfromChild] = useState('');
     const [whichRoutine, setWhichRoutine] = useState('');
+    const [original, setOriginal] = useState('');
     
     function sendData(){ // 완료 버튼 때 실행되게 만들기
-        props.setValue(dayfromChild);
-    }
+        //props.setResult(props.value);
+        let vvalue = original + ", " + props.value
+        //console.log("vvalue : ", vvalue)
+        props.setValue(vvalue);
+    };
     
     const routineValue = (rvalue) => {
-        switch(rvalue){
+        let result = rvalue.split(',');
+        setOriginal(rvalue);
+        routineText(result[0], result[1])
+        //console.log("resut0  ", result[0])
+        //console.log("resut1  ", result[1])
+        // switch(result[0]){
+        //     case 'Time':
+        //         vv = result[1] + '시간 마다 반복';
+        //         return setWhichRoutine(vv);
+        //     case 'Day':
+        //         vv = result[1] + '요일 마다 반복';
+        //         return setWhichRoutine(vv);
+        //     case 'Week':
+        //         vv = result[1] + '주 마다 반복';
+        //         return setWhichRoutine(vv);
+        //     case 'Month':
+        //         vv = result[1] + '달 마다 반복';
+        //         return setWhichRoutine(vv);
+        // }
+    };
+    const routineText = (textValue, rtime) => {
+        let vv;
+        switch(textValue){
             case 'Time':
-                return setWhichRoutine('Time')
+                vv = rtime + '시간 마다 반복';
+                return setWhichRoutine(vv);
+            case 'Day':
+                vv = rtime + '요일 마다 반복';
+                return setWhichRoutine(vv);
+            case 'Week':
+                vv = rtime + '주 마다 반복';
+                return setWhichRoutine(vv);
+            case 'Month':
+                vv = rtime + '달 마다 반복';
+                return setWhichRoutine(vv);
         }
-    }
+    };
 
+    const complete = () => {
+        //console.log("original : ", original)
+        sendData();
+        setModalVisible(!modalVisible);
+    };
     return (
         <View>
              <Modal visible={modalVisible}
@@ -44,26 +85,26 @@ const RoutinePage = (props) => {
                         <Text style={styles.header}>루틴 설정</Text>
                         <View style={styles.contentsList}>
                           {/*<View style={styles.viewsty}></View>*/}
-                            <Time setValue={setTimefromChild}></Time>
-
-                            
+                            <Time setValue={routineValue}></Time>
                                 {/*<Text style={styles.contentText}>요일 Day </Text>
                             <View style={styles.dayChildsty}></View>*/}
-                            <Day setValue={setDayfromChild}></Day>
-                            <Week setValue={setWeekfromChild}></Week>
-                            <Month setValue={setMonthfromChild}></Month>
+                            <Day setValue={routineValue}></Day>
+                            <Week setValue={routineValue}></Week>
+                            <Month setValue={routineValue}></Month>
                             
                         </View>
-                        <Text> - 반복할 시간 : {timefromChild}</Text>
+                        <Text>- 선택한 루틴 : {whichRoutine}</Text>
+                        {/* <Text>parents value: {props.value}</Text> */}
+                        {/* <Text> - 반복할 시간 : {timefromChild}</Text>
                         <Text > - 선택한 요일은 {dayfromChild}</Text>
                         <Text> - 반복할 주 : {weekfromChild}주</Text>
-                        <Text> - 반복할 달 : {monthfromChild}월 </Text>
+                        <Text> - 반복할 달 : {monthfromChild}월 </Text> */}
 
 
                     <View style={styles.comcanBtn}>{/* complete/cancel button*/}
                     <TouchableOpacity
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}>
+                    onPress={() => complete()}>{/* 여기서 루틴 설정 값 함수 호출 */}
                         <Text style={styles.textStyle}>  완료  </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -79,7 +120,7 @@ const RoutinePage = (props) => {
             
             <Button
             title='루틴'
-            onPress={() => setModalVisible(!modalVisible)}>
+            onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime);}}>
             </Button>
             {/*<Text>전달 받은 {props.value}</Text>*/}
         </View>

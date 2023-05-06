@@ -6,7 +6,8 @@ const WeekSelectPage = (props) => {
     const [weekValue, setWeekValue] = useState('');
 
     function sendData(){
-        props.setValue(weekValue);
+        let value = 'Week, '+ weekValue;
+        props.setValue(value);
     };
 
     const week = (value) => {

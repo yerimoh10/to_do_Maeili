@@ -12,7 +12,7 @@ const ToDoListApp = () => {
   const [modalVisible, setModalVisible] = useState(false);  // edit 모달을 보여주게 하는 함수
   const [editTitle, setEditTitle] = useState(''); // edit 하기 위해 원래 todo의 내용을 가져오는 함수
   const [editID, setEditID] = useState(0);  // edit할 리스트의 ID 가져오는 함수
-  const [value, setValue] = useState('');
+  const [routineID, setRoutineID] = useState('');
 
   useEffect(() => {
     // Load saved todos from JSON file on component mount
@@ -48,6 +48,8 @@ const ToDoListApp = () => {
         id: Date.now().toString(),
         title: newTodo,
         completed: false,
+        routine: "",
+        type: ""
       };
       setTodos([...todos, newTodoItem]);      // 기존 리스트에 새로운 todo를 추가시킴.
       setNewTodo('');
@@ -66,8 +68,8 @@ const ToDoListApp = () => {
   };
   const realEdit = () => {      //  실제로 todo 수정이 이루어지게 하는 함수
     if (edited.trim()) {
-      console.log("edited: ", edited)
-      console.log("editTitle: ", editTitle)
+      console.log("edited: ", edited);
+      console.log("editTitle: ", editTitle);
       const updatedTodos = todos.map((todo) =>
         todo.id === editID ? { ...todo, title: edited } : todo // 3항 연산
       );
@@ -83,6 +85,40 @@ const ToDoListApp = () => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
   };
+
+  // const checkingID = (itemID) => {
+  //   //setRoutineID("");
+  //   console.log("넘어오는 값: ", itemID);
+  //   setRoutineID(itemID);
+  //   console.log("루틴 아이디: ", routineID);
+  // };
+
+  const checkingRoutine = (rvalue) => {
+    if(rvalue){
+      let result = rvalue.split(', ');
+      console.log("main result : ", result[0], ", main result 2 : ", result[1], ", main result 3 : ", result[2]);
+      let r_id
+      if(result[2]){
+        r_id=result[2].trim();
+      }
+      
+      //setRoutineID(result[2]);
+      //console.log("result[2]   :  ", result[2], "       루틴 아이디: ", routineID);
+      //let r_num = Number(result[1]);
+      let r_num = result[1]
+      console.log("루틴 숫자들 : ", r_num);
+      console.log("============================================", r_id);
+      //console.log("todos : ", todos);
+      const updatedTodos = todos.map((todo) =>
+        todo.id === r_id ? { ...todo, routine: r_num, type: result[0] } : todo // 3항 연산
+      );
+      setTodos(updatedTodos);
+      console.log("todos : ", todos);
+    }
+  };
+  // useEffect(() => {
+  //   console.log("업데이트")
+  // })
 
   useEffect(() => { // 투두 리스트를 계속적으로 저장시켜주게 도와주는 함수
     // Save todos to JSON file whenever the todos state changes
@@ -142,7 +178,7 @@ const ToDoListApp = () => {
 
                 <Text style={[styles.textSty, item.completed ? styles.completedTotoTitle : null]}
                 onPress={() => toggleTodoCompletion(item.id)}>{item.title}</Text>
-              
+                <Text>{item.type}</Text>
               <Button
                 //value={edited}
                 title='EDIT'
@@ -152,8 +188,8 @@ const ToDoListApp = () => {
                 //}}
               />
               <Button title="Delete" onPress={() => handleDeleteTodo(item.id)} />
-              <Routine />{/* 자식컴포넌트에서 직접 그림 */}
-              {/*{value} 사용해서 자식 컴포넌트에서 넘어오는 값 사용할 수 있음 */}
+              <Routine  value={item.id} rvalue={item.type} rtime={item.routine} setValue={checkingRoutine} />{/* 자식컴포넌트에서 직접 그림 setResult={checkingID}*/}
+                {/*{value} 사용해서 자식 컴포넌트에서 넘어오는 값 사용할 수 있음 */}
             </View>
             
           </View>
@@ -168,6 +204,9 @@ const ToDoListApp = () => {
 };
 // 스타일 입력 ↓
 const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사용되는 스타일인지 알 수 있음 
+  touchh:{
+    borderWidth: 1,
+  },
   container: {
     margin: 30,
     marginBottom: 40,
@@ -231,12 +270,13 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
     marginBottom: 40
   }, 
   listView: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    margin: 2,
   },
   textSty: {
     flex: 1,
     justifyContent: 'center',
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
   },
   editSty: {
     borderWidth: 1,

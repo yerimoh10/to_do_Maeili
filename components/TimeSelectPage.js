@@ -6,7 +6,8 @@ const TimeSelectPage = (props) => {
     const [timeValue, setTimeValue] = useState('');
 
     function sendData(){
-        props.setValue(timeValue);
+        let value = 'Time, '+ timeValue;
+        props.setValue(value);
     };
     const time = (value) => {
         switch(value){
