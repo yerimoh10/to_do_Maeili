@@ -1,12 +1,18 @@
 {
     "to_do": [
         {
-            "idx": 0,
-            "list_content": "강아지 산책시키기"
+            "id": 0,
+            "title": "강아지 산책시키기",
+            "completed": false,
+            "routine" : "",
+            "type": ""
         },
         {
-            "idx": 1,
-            "list_content": "책 읽기"
+            "id": 2,
+            "title": "두번째 투두",
+            "completed": false,
+            "routine" : "",
+            "type": ""
         }
     ]
 

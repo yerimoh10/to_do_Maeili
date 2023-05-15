@@ -12,10 +12,6 @@ const RoutinePage = (props) => {
     //console.log(props.value)
     const [modalVisible, setModalVisible] = useState(false);
     const [value, setValue] = useState('');
-    const [dayfromChild, setDayfromChild] = useState('월');
-    const [timefromChild, setTimefromChild] = useState('');
-    const [weekfromChild, setWeekfromChild] = useState('');
-    const [monthfromChild, setMonthfromChild] = useState('');
     const [whichRoutine, setWhichRoutine] = useState('');
     const [original, setOriginal] = useState('');
     

@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
         marginTop: 13,
     },
     completedTotoTitle: {
-        textDecorationLine: 'line-through',
         backgroundColor: '#8E9DA5'
     },
     dayHeader: {
