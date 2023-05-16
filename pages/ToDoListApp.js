@@ -7,6 +7,8 @@ import * as Application from 'expo-application';
 import Loading from '../components/Loading';
 import Today from '../components/TodaysPage';
 import Weather from './Weather';
+
+
 const isAndroid = Platform.OS === 'android';
 const isIOS = Platform.OS === 'ios';
 
@@ -308,6 +310,7 @@ const ToDoListApp = () => {
         keyExtractor={(item, index) => index.toString()}
       /> 
       {/*<Text>{value}</Text>*/}
+      
     </SafeAreaView>
   );
 };
