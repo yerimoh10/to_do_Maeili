@@ -1,10 +1,11 @@
 import React, { useState, useEffect, Component } from 'react';
-import { View, Button, StyleSheet, Text, Modal, Pressable, TouchableOpacity, ScrollView, Alert  } from 'react-native';
+import { View, Button, StyleSheet, Text, Modal, TouchableOpacity, Image  } from 'react-native';
 import { TextInput } from 'react-native-web';
 import Day from './DaySelectPage';
 import Time from './TimeSelectPage';
 import Week from './WeekSelectPage';
 import Month from './MonthSelectPage';
+import setting from "../assets/setting_picpng.png";
 
 // 루틴 설정 페이지
 
@@ -78,7 +79,12 @@ const RoutinePage = (props) => {
                 }}>
                 <View style={styles.modalRoutineView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.header}>루틴 설정</Text>
+                        <View style={styles.headingSty}>
+                            <Text style={styles.header}>루틴 설정</Text>
+                            <TouchableOpacity style={styles.settings}>
+                                <Image source={setting} style={styles.imageStyle}/>
+                            </TouchableOpacity>
+                        </View>
                         <View style={styles.contentsList}>
                           {/*<View style={styles.viewsty}></View>*/}
                             <Time setValue={routineValue}></Time>
@@ -169,7 +175,9 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textDecorationLine: 'underline',
         padding: 10,
-        color: '#A76EBE'
+        color: '#A76EBE',
+        flex: 2,
+        marginLeft: 80,
     },
     contentsList:{
         flex: 1,
@@ -190,6 +198,20 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         textAlignVertical: 'center'
+    },
+    headingSty:{
+        flexDirection: "row",
+    },
+    imageStyle: {
+        //marginLeft: 50,
+        flex:1,
+        borderWidth: 1,
+        justifyContent: "center",
+        
+        width: 30,
+        height: 20,
+        resizeMode: "contain",
+        overflow: "hidden",
     },
 });
 

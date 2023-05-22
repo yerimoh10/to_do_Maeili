@@ -7,14 +7,16 @@ import * as Application from 'expo-application';
 import Loading from '../components/Loading';
 import Today from '../components/TodaysPage';
 import Weather from './Weather';
+import {Dimensions} from 'react-native';
 
 
 const isAndroid = Platform.OS === 'android';
 const isIOS = Platform.OS === 'ios';
 
 // 메인 페이지: 여기서 투두 작성, 수정, 삭제 다 관리하는 페이지
+const windowHeight = Dimensions.get('window').height;
 
-const ToDoListApp = () => {
+const ToDoListApp = ({navigation, route}) => {
   console.disableYellowBox = true;
   const [todos, setTodos] = useState([]);  // 리스트에 새로운 todo 생성시키는 함수
   const [newTodo, setNewTodo] = useState(''); // input에 글이 입력될 때마다 변하는 값들을 저장하는 함수
@@ -25,8 +27,142 @@ const ToDoListApp = () => {
   const [todayDate, setTodayDate] = useState('')
   const [ready, setReady] = useState(true);
   const [firstSave, setFirstSave] = useState(false);
+  const [rvalue, setrvalue] = useState([])
 
 
+  var timer_id=-1;
+ function checkRoutine() // 투두의 루틴 설정 기능 (반복 기능 함수)
+ {
+    //console.log('check Routine!');
+    todos.map((todo) => {
+      //console.log(todo.type) // 투두의 타입 가져오기
+      //console.log(Number(todo.id))
+    
+      if (todo.type){
+        if (todo.type == 'Time') {
+          let routine = Number(todo.routine);
+          
+          let createTime = new Date(Number(todo.id))
+          let org_sec = Math.floor((createTime.getTime()) / 1000); 
+          console.log(todo.title, "org sec : ", org_sec);
+
+          const date = new Date();
+          const diff = Math.floor((date.getTime()) / 1000);
+          console.log(todo.title, "cur sec : ", diff);
+          const diff_sec = diff - org_sec;
+          const calcu_min = Math.floor(diff_sec %(routine*60)); // 60-> 분, / 3600 -> 시간으로
+
+          if (calcu_min == 0 && todo.completed) {
+            //db 저장
+            // active
+            console.log("commmmmmmmm  : ", todo.completed)
+            //if(todo.completed){
+              todo.completed = false
+            //}
+            console.log("changeeeeeee  : ", todo.completed)
+            saveTodosToJson();
+            loadTodosFromJson();
+          }
+          const minee = (diff/60)
+          console.log("분으로 : ", calcu_min);
+        } 
+        if (todo.type == 'Day') {
+          let routine = Number(todo.routine);
+          
+          // let createTime = new Date(Number(todo.id))
+          // let org_sec = Math.floor((createTime.getTime()) / 1000); 
+          // console.log(todo.title, "org sec : ", org_sec);
+
+          const date = new Date();
+          // const diff = Math.floor((date.getTime()) / 1000);
+          // console.log(todo.title, "cur sec : ", diff);
+          // const diff_sec = diff - org_sec;
+          // const calcu_min = Math.floor(diff_sec %(routine*60)); //3600 시간으로
+
+          if (date.getHours()==0 && date.getMinutes()==0 && date.getSeconds() == 0 &&  
+              routine == date.getDay() && todo.completed) { // 요일 
+            //db 저장
+            // active
+            console.log("commmmmmmmm  : ", todo.completed)
+            todo.completed = false  // 
+            
+            console.log("changeeeeeee  : ", todo.completed)
+            saveTodosToJson();
+            loadTodosFromJson();
+          }
+        }
+        if (todo.type == 'Week') {
+          let routine = Number(todo.routine);
+          
+          let createTime = new Date(Number(todo.id))
+          const org_time = new Date(createTime.getFullYear(),createTime.getMonth()+1,createTime.getDate(),0,0,0)
+          let org_sec = Math.floor((org_time.getTime()) / 1000); 
+          console.log(todo.title, "org sec : ", org_sec);
+
+          const date = new Date();
+          const diff = Math.floor((date.getTime()) / 1000);
+          console.log(todo.title, "cur sec : ", diff);
+          const diff_sec = diff - org_sec;
+          const calcu_min = Math.floor(diff_sec %(routine*3600*24*7)); // Week 계산
+
+          if (calcu_min == 0 && todo.completed) {
+            //db 저장
+            // active
+            console.log("commmmmmmmm  : ", todo.completed)
+            //if(todo.completed){
+              todo.completed = false
+            //}
+            console.log("changeeeeeee  : ", todo.completed)
+            saveTodosToJson();
+            loadTodosFromJson();
+          }
+          //const minee = (diff/60)
+          console.log("주으로 : ", calcu_min);
+        } 
+        if (todo.type == 'Month') {
+          let routine = Number(todo.routine);
+          
+          let createTime = new Date(Number(todo.id))
+
+          const org_time = new Date(createTime.getFullYear(),createTime.getMonth()+1,createTime.getDate(),0,0,0)
+          let org_sec = Math.floor((org_time.getTime()) / 1000); 
+          console.log(todo.title, "org sec : ", org_sec);
+
+          const date = new Date();
+
+          if (createTime.getFullYear() == date.getFullYear() && createTime.getDate() == date.getDate() ){
+            let cMonth = createTime.getMonth() + 1
+            if((cMonth % 12) == date.getMonth() ){
+              if(date.getHours() == 0 && date.getMinutes() == 0 && date.getSeconds() == 0 && todo.completed){
+                todo.completed = false
+                console.log("changeeeeeee  : ", todo.completed)
+                saveTodosToJson();
+                loadTodosFromJson();  
+              }
+            }
+          }
+        } 
+
+      }
+
+      // let rTYPE = todo.type
+      // const idtype = { rID : rTYPE}
+      // setrvalue([...rvalue, idtype])
+      //routinevalfromtype.push( todo.id , todo.routine)
+    });
+
+    if (timer_id!=-1) 
+        clearTimeout(timer_id);
+
+    timer_id = setTimeout(() => {
+      // do your work
+      checkRoutine();
+      //timer();
+    }, 1000);
+ }
+ 
+ checkRoutine();
+// navigation.navigate('')
   useEffect(() => {
     setTimeout(() => {
 
@@ -36,11 +172,10 @@ const ToDoListApp = () => {
       setReady(false);
       //saveTodosToJson();
     }, 2000 ) // 2초 지연 시간 줌
-
     
     console.log("todos : ", todos)
     
-  }, []);  //컴포넌트가 화면에 가장 처음 렌더링 될 때 한 번만 실행하고 싶을 때는 deps 위치에 빈 배열을 넣는다.
+  }, []); // 컴포넌트가 화면에 가장 처음 렌더링 될 때 한 번만 실행하고 싶을 때는 deps 위치에 빈 배열을 넣는다.
  
   useEffect(() => { // 투두 리스트를 계속적으로 저장시켜주게 도와주는 함수
     // Save todos to JSON file whenever the todos state changes
@@ -49,21 +184,70 @@ const ToDoListApp = () => {
     if(firstSave){
       saveTodosToJson();
     }
-
+    
   //});  // 배열을 생략한다면 리렌더링 될 때 마다 실행된다.
    }, [todos]);  // [] 안에 있는 조건이 변경될 때마다 실행
 
-  const todaysDate = () => {
+  const todaysDate = async () => {
+    let uniqueID
+      if(isAndroid){
+        let androID = await Application.androidId;
+        //console.log("Here is Android : ", androID)
+        uniqueID = androID
+      }else{
+        uniqueID = Application.getIosIdForVendorAsync();
+      }
+      //console.log('uniqueID :: ', uniqueID)
+
     let time = new Date();
     let todays = "";
     let year = time.getFullYear().toString();
     let month = time.getMonth() + 1;
     let day = time.getDate();
+    let hours = time.getHours();
+    let mins = time.getMinutes();
+    let secs = time.getSeconds();
     
     todays += year+month + day;
-    //console.log("todays >>>> ", todays)
+    currentTime = todays + hours + mins + secs;
+    //console.log("todays >>>> ", Number(currentTime))
     setTodayDate(todays)
-    console.log( "todays >>>> ",todayDate)
+    //console.log( "todays >>>> ",Date.now())
+      // const d = new Date(1684345701141)
+      // const diff = (Date.now() - d.getTime()) / 1000;
+      // console.log("다른 시간 ", diff)
+    // 루틴 반복 기능 
+    // const routinevalfromtype = {}; // 루틴 값 가져오기
+     
+    // const idfromtodos = [];
+    todos.map((todo) => {
+      //console.log(todo.type) // 투두의 타입 가져오기
+      //console.log(Number(todo.id))
+      if(todo.type){
+        let createTime = new Date(Number(todo.id))
+        const diff = (Date.now() - createTime.getTime()) / 1000;
+        console.log(todo.title, "Herer : ", diff)
+        const minee = (diff/60)
+        console.log("밀리 초 --> 분으로 : ", minee)
+      }
+
+      // let rTYPE = todo.type
+      // const idtype = { rID : rTYPE}
+      // setrvalue([...rvalue, idtype])
+      //routinevalfromtype.push( todo.id , todo.routine)
+    });
+    
+    //{ ...todo, title: edited } : todo 
+    // firebase_db.ref('/to_do/'+uniqueID+'/'+todays).once('value').then((snapshot) => {
+    //   let td = snapshot.val();
+    //   //console.log("ID   :   ", snapshot.val()[0].type) // 아이디 접근 방법
+    //  // console.log("ID22   :   ", snapshot.val()[1].type)
+    //   let ddd = todos.map((todo) => {
+    //     console.log(todo.type) // 투두의 타입 가져오기
+    //     routinevalfromtype.push(todo.routine)
+    //   });
+    //   console.log("리스트: ", routinevalfromtype)
+    // });
   }
   
 
@@ -92,6 +276,9 @@ const ToDoListApp = () => {
       todays += year+month + day;
       await firebase_db.ref('/to_do/'+uniqueID+'/'+todays).once('value').then((snapshot) => {
         let td = snapshot.val();
+        // 모든 todo 불러오기 
+        // 해당되는 todo - 루틴 설정 된 것들만 time 무조건, day: 해당 요일 되는 얘들만 출력. 
+        // 루틴 설정을 안 한 얘들 다 보여줌. 
         if(td){
           setTodos(td)
         }else{
@@ -99,7 +286,7 @@ const ToDoListApp = () => {
           console.log("엘스ㅡㅡ")
         }
       });
-      console.log("uniq UDDDDDDDDDDD : ", uniqueID)
+      //console.log("uniq UDDDDDDDDDDD : ", uniqueID)
     } catch (error) {
       console.log('Error while reading todos from JSON file: here', error);
     }
@@ -129,7 +316,14 @@ const ToDoListApp = () => {
       let month = time.getMonth() + 1;
       let day = time.getDate();
       todays += year+month + day;
-      firebase_db.ref('/to_do/'+ uniqueID +'/'+ todays +'/').set(todos, function(error){ // '/to_do'+ uniqueID +'/'
+      // todos.map((todo) => {
+      //   firebase_db.ref('/to_do/'+ uniqueID +'/'+ todays +'/' + todo.id).set(todo, function(error){
+      //     if(null){
+      //       console.log("This is error", error)
+      //     }        
+      //   });
+      // });
+      firebase_db.ref('/to_do/'+ uniqueID +'/'+ todays).set(todos, function(error){
         if(null){
           console.log("This is error", error)
         }        
@@ -143,18 +337,18 @@ const ToDoListApp = () => {
   const handleAddTodo = async () => {       // add 버튼 누르면 실행되는 함수. 
     if (newTodo.trim()) {
       //await todaysDate();
-      let time = new Date();
-      let todays = "";
-      let year = time.getFullYear().toString();
-      let month = time.getMonth() + 1;
-      let day = time.getDate();
-      let hours = time.getHours();
-      let mins = time.getMinutes();
-      let secs = time.getSeconds();
-      todays += year+month + day + hours + mins + secs;
+              let time = new Date();
+              let todays = "";
+              let year = time.getFullYear().toString();
+              let month = time.getMonth() + 1;
+              let day = time.getDate();
+              let hours = time.getHours();
+              let mins = time.getMinutes();
+              let secs = time.getSeconds();
+              todays += year+month + day + hours + mins + secs;
       //todaysDate(todays)
       const newTodoItem = {           // todo ID, todo 내용, 완료 flag 가 하나의 리스트가 됨.
-        "id": todays, //Date.now().toString(),
+        "id": Date.now().toString(), //todays
         "title": newTodo,
         "completed": false,
         "routine": "",
@@ -226,9 +420,27 @@ const ToDoListApp = () => {
       console.log("todos : ", todos);
     }
   };
-  // useEffect(() => {
-  //   console.log("업데이트")
-  // })
+  
+  const makingRoutine = () => {
+    let time = new Date();
+    let todays = "";
+    let year = time.getFullYear().toString();
+    let month = time.getMonth() + 1;
+    let day = time.getDate();
+    
+    todays += year+month + day;
+    firebase_db.ref('/to_do/'+uniqueID+'/'+todays).once('value').then((snapshot) => {
+      let td = snapshot.val();
+      console.log("ID   :   ", snapshot.val()[0].type) // 아이디 접근 방법
+      console.log("ID22   :   ", snapshot.val()[1].type)
+      // if(td){
+      //   console.log("여기: ", td)
+      // }else{
+      //   //setTodos(tdList)
+      //   console.log("엘스ㅡㅡ")
+      // }
+    });
+  }
 
   
   return  ready ? <Loading /> : (    // 실제 화면에서 보여지는 내용
@@ -302,7 +514,7 @@ const ToDoListApp = () => {
               <Routine  value={item.id} rvalue={item.type} rtime={item.routine} setValue={checkingRoutine} />{/* 자식컴포넌트에서 직접 그림 setResult={checkingID}*/}
                 {/*{value} 사용해서 자식 컴포넌트에서 넘어오는 값 사용할 수 있음 */}
             </View>
-            
+           
           </View>
           
         )}
@@ -320,9 +532,10 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
     borderWidth: 1,
   },
   container: {
-    margin: 30,
-    marginBottom: 40,
-    paddingBottom: 20
+    padding: 30,
+    paddingBottom: 20,
+    backgroundColor: "#fff",
+    height: windowHeight,
   },
   Headings: {
     flexDirection: 'row',

@@ -8,19 +8,19 @@ const DaySelectPage = (props) => {
     const days = (sday) => {
         switch (sday){
             case 'Mon':
-                return setDayValue("월")
+                return setDayValue("1")
             case 'Tue':
-                return setDayValue("화")
+                return setDayValue("2")
             case 'Wed':
-                return setDayValue("수")
+                return setDayValue("3")
             case 'Thu':
-                return setDayValue("목")
+                return setDayValue("4")
             case 'Fri':
-                return setDayValue("금")
+                return setDayValue("5")
             case 'Sat':
-                return setDayValue("토")
+                return setDayValue("6")
             case 'Sun':
-                return setDayValue("일")
+                return setDayValue("0")
         }
         
         

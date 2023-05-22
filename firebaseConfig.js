@@ -10,6 +10,8 @@ import "firebase/storage";
 // Initialize Firebase
 //파이어베이스 사이트에서 봤던 연결정보를 여기에 가져옴
 const firebaseConfig = {
+    //7조 매일이 firebase
+    
     apiKey: "AIzaSyC-ZegPzuDiKTNGf3I1nXzWhDH0FZUvqWo",
     authDomain: "maeili-fbc63.firebaseapp.com",
     databaseURL: "https://maeili-fbc63-default-rtdb.asia-southeast1.firebasedatabase.app/",
@@ -18,6 +20,8 @@ const firebaseConfig = {
     messagingSenderId: "804209668328",
     appId: "1:804209668328:web:0009628bdcbb7be3f8595d",
     measurementId: "G-NFSCK767PX"
+
+
     // apiKey: "AIzaSyDRhwEgKdRVTkf0kvrWRaLBCruhRDSGyl0",
     // authDomain: "maeili.firebaseapp.com",
     // databaseURL: "https://maeili-default-rtdb.asia-southeast1.firebasedatabase.app/",
