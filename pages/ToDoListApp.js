@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, TextInput,StyleSheet, Button, Text, Modal, SafeAreaView, Pressable, Alert,TouchableOpacity, Platform } from 'react-native';
+import { View, FlatList, TextInput,StyleSheet, Button, Text, Modal, SafeAreaView, Image, Alert,TouchableOpacity, Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import Routine from '../components/RoutinePage';  // 루틴관리하는 자식 컴포넌트
 import { firebase_db } from "../firebaseConfig";
@@ -27,7 +27,8 @@ const ToDoListApp = ({navigation, route}) => {
   const [todayDate, setTodayDate] = useState('')
   const [ready, setReady] = useState(true);
   const [firstSave, setFirstSave] = useState(false);
-  const [rvalue, setrvalue] = useState([])
+  const [wholeTo_do, setWholeTo_do] = useState([])
+  
 
 
   var timer_id=-1;
@@ -60,8 +61,8 @@ const ToDoListApp = ({navigation, route}) => {
               todo.completed = false
             //}
             console.log("changeeeeeee  : ", todo.completed)
-            saveTodosToJson();
-            loadTodosFromJson();
+            saveTodosToJson(todayDate);
+            loadTodosFromJson(todayDate); // 로드
           }
           const minee = (diff/60)
           console.log("분으로 : ", calcu_min);
@@ -87,8 +88,8 @@ const ToDoListApp = ({navigation, route}) => {
             todo.completed = false  // 
             
             console.log("changeeeeeee  : ", todo.completed)
-            saveTodosToJson();
-            loadTodosFromJson();
+            saveTodosToJson(todayDate);
+            loadTodosFromJson(todayDate);  // 로드
           }
         }
         if (todo.type == 'Week') {
@@ -113,8 +114,8 @@ const ToDoListApp = ({navigation, route}) => {
               todo.completed = false
             //}
             console.log("changeeeeeee  : ", todo.completed)
-            saveTodosToJson();
-            loadTodosFromJson();
+            saveTodosToJson(todayDate);
+            loadTodosFromJson(todayDate);  // 로드
           }
           //const minee = (diff/60)
           console.log("주으로 : ", calcu_min);
@@ -136,19 +137,14 @@ const ToDoListApp = ({navigation, route}) => {
               if(date.getHours() == 0 && date.getMinutes() == 0 && date.getSeconds() == 0 && todo.completed){
                 todo.completed = false
                 console.log("changeeeeeee  : ", todo.completed)
-                saveTodosToJson();
-                loadTodosFromJson();  
+                saveTodosToJson(todayDate);
+                loadTodosFromJson(todayDate);   // 로드
               }
             }
           }
         } 
 
       }
-
-      // let rTYPE = todo.type
-      // const idtype = { rID : rTYPE}
-      // setrvalue([...rvalue, idtype])
-      //routinevalfromtype.push( todo.id , todo.routine)
     });
 
     if (timer_id!=-1) 
@@ -166,7 +162,7 @@ const ToDoListApp = ({navigation, route}) => {
   useEffect(() => {
     setTimeout(() => {
 
-      loadTodosFromJson();
+      loadTodosFromJson(); // 로드
       todaysDate();
       setFirstSave(true);
       setReady(false);
@@ -182,7 +178,7 @@ const ToDoListApp = ({navigation, route}) => {
     console.log("상태    : ", firstSave);
     //saveTodosToJson(); //-<< 저장된 값이 있다면 새로 저장하게 하면 안됨.... 
     if(firstSave){
-      saveTodosToJson();
+      saveTodosToJson(todayDate);
     }
     
   //});  // 배열을 생략한다면 리렌더링 될 때 마다 실행된다.
@@ -210,8 +206,8 @@ const ToDoListApp = ({navigation, route}) => {
     
     todays += year+month + day;
     currentTime = todays + hours + mins + secs;
-    //console.log("todays >>>> ", Number(currentTime))
-    setTodayDate(todays)
+    //setTodayDate(todays)
+    //console.log("todays >>>> ", todayDate)
     //console.log( "todays >>>> ",Date.now())
       // const d = new Date(1684345701141)
       // const diff = (Date.now() - d.getTime()) / 1000;
@@ -249,9 +245,9 @@ const ToDoListApp = ({navigation, route}) => {
     //   console.log("리스트: ", routinevalfromtype)
     // });
   }
-  
+  const todo_array =[];
 
-  const loadTodosFromJson = async () => {   // 내장된 파일에 저장되어 있는 todo를 로딩하는 함수
+  const loadTodosFromJson = async (today) => {   // 내장된 파일에 저장되어 있는 todo를 로딩하는 함수
       try {
     //     const result = await FileSystem.readAsStringAsync(
     //     FileSystem.documentDirectory + 'todos.json' //todos.json
@@ -274,15 +270,39 @@ const ToDoListApp = ({navigation, route}) => {
       let month = time.getMonth() + 1;
       let day = time.getDate();
       todays += year+month + day;
-      await firebase_db.ref('/to_do/'+uniqueID+'/'+todays).once('value').then((snapshot) => {
+      todo_array.length = 0;
+      let tt = today;
+      /*await firebase_db.ref('/to_do/' + uniqueID+'/').once('value').then((snapshot) => {
+        //let contents = snapshot.val();
+        const todolist = [];
+        //setWholeTo_do([]);
+        for (var i in snapshot.val()) {
+          //console.log("snapshot::: :: ", snapshot.val()[i])
+          snapshot.val()[i].map((toDo) => {
+            todolist.push(toDo)
+            //setWholeTo_do([...wholeTo_do, toDo]);
+            
+            //wholeTo_do.push(toDo) 
+            //console.log("array-----------------------   ", todolist)
+          })
+
+       //setTodos(to_do);
+      }
+      setWholeTo_do(todolist);
+      //console.log("Whooooooooole -----> ", wholeTo_do)
+        //console.log('This is contents : : : ', contents)
+      })*/
+      console.log("확인: ", tt?tt:todays)
+      final_day = tt?tt:todays
+      await firebase_db.ref('/to_do/'+uniqueID+'/'+ final_day).once('value').then((snapshot) => {
         let td = snapshot.val();
         // 모든 todo 불러오기 
         // 해당되는 todo - 루틴 설정 된 것들만 time 무조건, day: 해당 요일 되는 얘들만 출력. 
-        // 루틴 설정을 안 한 얘들 다 보여줌. 
+        // 루틴 설정을 안 한 얘들 다 보여줌. --> 취소. 그대로 감.
         if(td){
           setTodos(td)
         }else{
-          //setTodos(tdList)
+          setTodos([])
           console.log("엘스ㅡㅡ")
         }
       });
@@ -292,7 +312,7 @@ const ToDoListApp = ({navigation, route}) => {
     }
   };
 
-  const saveTodosToJson = async () => {       // 생성된 투두를 내장 파일에 저장하는 함수
+  const saveTodosToJson = async (today) => {       // 생성된 투두를 내장 파일에 저장하는 함수
      try {
     //   await FileSystem.writeAsStringAsync(
     //     FileSystem.documentDirectory + 'todos.json',
@@ -323,7 +343,9 @@ const ToDoListApp = ({navigation, route}) => {
       //     }        
       //   });
       // });
-      firebase_db.ref('/to_do/'+ uniqueID +'/'+ todays).set(todos, function(error){
+      let tt = today;
+      final_day = tt?tt:todays
+      firebase_db.ref('/to_do/'+ uniqueID +'/'+ final_day).set(todos, function(error){
         if(null){
           console.log("This is error", error)
         }        
@@ -355,6 +377,7 @@ const ToDoListApp = ({navigation, route}) => {
         "type": ""
       };
       setTodos([...todos, newTodoItem]);      // 기존 리스트에 새로운 todo를 추가시킴.
+      setWholeTo_do([... wholeTo_do, newTodoItem]);
       setNewTodo('');
       console.log(todos);
     }
@@ -388,6 +411,7 @@ const ToDoListApp = ({navigation, route}) => {
     //updatedTodos.splice(index, 1);
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
+    loadTodosFromJson(todayDate);  // 로드
   };
 
   // const checkingID = (itemID) => {
@@ -420,7 +444,21 @@ const ToDoListApp = ({navigation, route}) => {
       console.log("todos : ", todos);
     }
   };
-  
+  const chooseDay = async (day) => {
+    let uniqueID;
+    let today = day;
+    if(isAndroid){
+      let androID = await Application.androidId;
+      //console.log("Here is Android : ", androID)
+      uniqueID = androID
+    }else{
+      uniqueID = Application.getIosIdForVendorAsync();
+    }
+    await setTodayDate(today)
+    console.log("todays >>>> ", today) //todayDate
+    loadTodosFromJson(today)
+  };
+
   const makingRoutine = () => {
     let time = new Date();
     let todays = "";
@@ -450,7 +488,8 @@ const ToDoListApp = ({navigation, route}) => {
         <Weather />
         </View>
       
-      <Today />
+      <Today chooseDays={chooseDay} />
+      
       <View style={styles.addView}>
         <TextInput
           style={styles.inputBox}
@@ -492,9 +531,10 @@ const ToDoListApp = ({navigation, route}) => {
           </View>
       </Modal>
       </View>
+       
       <FlatList // 작성한 todo들이 FlatList에 의해 보여지게 됨.
         style={styles.listSty}
-        data={todos}
+        data={todos} //todos    wholeTo_do
         renderItem={({ item, index }) => (
           <View >
             <View style={styles.listView}>

@@ -1,34 +1,47 @@
 import React, { useState, useEffect, Component } from 'react';
-import { View, Button, StyleSheet, Text, Modal, TouchableOpacity, Image  } from 'react-native';
-import { TextInput } from 'react-native-web';
+import { View, Button, StyleSheet, Text, Modal, TouchableOpacity, Image, Alert  } from 'react-native';
 import Day from './DaySelectPage';
 import Time from './TimeSelectPage';
 import Week from './WeekSelectPage';
 import Month from './MonthSelectPage';
 import setting from "../assets/setting_picpng.png";
+import { firebase_db } from "../firebaseConfig";
+import * as Application from 'expo-application';
 
 // 루틴 설정 페이지
 
 const RoutinePage = (props) => {
     //console.log(props.value)
     const [modalVisible, setModalVisible] = useState(false);
-    const [value, setValue] = useState('');
     const [whichRoutine, setWhichRoutine] = useState('');
     const [original, setOriginal] = useState('');
+    const [days, setDays] = useState('');
     
     function sendData(){ // 완료 버튼 때 실행되게 만들기
         //props.setResult(props.value);
         let vvalue = original + ", " + props.value
-        //console.log("vvalue : ", vvalue)
+        console.log("vvalue : ", vvalue)
         props.setValue(vvalue);
     };
     
     const routineValue = (rvalue) => {
         let result = rvalue.split(',');
         setOriginal(rvalue);
-        routineText(result[0], result[1])
-        //console.log("resut0  ", result[0])
-        //console.log("resut1  ", result[1])
+
+        if(result[0] == 'Day'){ // 화면에 보여주기 위한 기능
+            if(result[1] == 1) { routineText(result[0], '월'); }
+            if(result[1] == 2) { routineText(result[0], '화'); }
+            if(result[1] == 3) { routineText(result[0], '수'); }
+            if(result[1] == 4) { routineText(result[0], '목'); }
+            if(result[1] == 5) { routineText(result[0], '금'); }
+            if(result[1] == 6) { routineText(result[0], '토'); }
+            if(result[1] == 0) { routineText(result[0], '일'); }
+        }else{
+            routineText(result[0], result[1])
+        }
+        
+        // console.log("resut0  ", result[0])
+        // console.log("resut1  ", result[1])
         // switch(result[0]){
         //     case 'Time':
         //         vv = result[1] + '시간 마다 반복';
@@ -46,18 +59,22 @@ const RoutinePage = (props) => {
     };
     const routineText = (textValue, rtime) => {
         let vv;
+        
         switch(textValue){
             case 'Time':
-                vv = rtime + '시간 마다 반복';
+                vv = '선택한 루틴 : ' + rtime + '시간 마다 반복';
                 return setWhichRoutine(vv);
             case 'Day':
-                vv = rtime + '요일 마다 반복';
+                vv = '선택한 루틴 : ' + rtime + '요일 마다 반복';
                 return setWhichRoutine(vv);
             case 'Week':
-                vv = rtime + '주 마다 반복';
+                vv = '선택한 루틴 : ' + rtime + '주 마다 반복';
                 return setWhichRoutine(vv);
             case 'Month':
-                vv = rtime + '달 마다 반복';
+                vv = '선택한 루틴 : ' + rtime + '달 마다 반복';
+                return setWhichRoutine(vv);
+            default:
+                vv = '루틴을 설정하지 않았습니다.';
                 return setWhichRoutine(vv);
         }
     };
@@ -67,6 +84,13 @@ const RoutinePage = (props) => {
         sendData();
         setModalVisible(!modalVisible);
     };
+
+    const Reset = () => {
+        setOriginal(' , ');
+        routineText('', '')
+        Alert.alert('초기화 되었습니다.');
+    };
+
     return (
         <View>
              <Modal visible={modalVisible}
@@ -81,7 +105,7 @@ const RoutinePage = (props) => {
                     <View style={styles.modalView}>
                         <View style={styles.headingSty}>
                             <Text style={styles.header}>루틴 설정</Text>
-                            <TouchableOpacity style={styles.settings}>
+                            <TouchableOpacity onPress ={() => Reset()}>
                                 <Image source={setting} style={styles.imageStyle}/>
                             </TouchableOpacity>
                         </View>
@@ -95,7 +119,7 @@ const RoutinePage = (props) => {
                             <Month setValue={routineValue}></Month>
                             
                         </View>
-                        <Text>- 선택한 루틴 : {whichRoutine}</Text>
+                        <Text>{whichRoutine}</Text>
                         {/* <Text>parents value: {props.value}</Text> */}
                         {/* <Text> - 반복할 시간 : {timefromChild}</Text>
                         <Text > - 선택한 요일은 {dayfromChild}</Text>
