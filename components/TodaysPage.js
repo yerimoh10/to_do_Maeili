@@ -14,15 +14,34 @@ const TodaysPage = (props) => {
     let month = time.getMonth() + 1;
     let day = time.getDate();
     todays += year+month;
-    //setDDD(day)
-    const sendData = (today) => {
+
+    let dateNow = new Date();
+
+    dateNow.setHours(dateNow.getHours() - 24);
+    let year_1 = dateNow.getFullYear(); 
+    let day_1 = dateNow.getDate(); 
+    let month_1 = dateNow.getMonth() + 1;
+    dateNow.setHours(dateNow.getHours() - 24);
+    let year_2 = dateNow.getFullYear(); 
+    let day_2 = dateNow.getDate(); 
+    let month_2 = dateNow.getMonth() + 1;
+    dateNow.setHours(dateNow.getHours() - 24);
+    let year_3 = dateNow.getFullYear(); 
+    let day_3 = dateNow.getDate(); 
+    let month_3 = dateNow.getMonth() + 1;
+    dateNow.setHours(dateNow.getHours() - 24);
+    let year_4 = dateNow.getFullYear(); 
+    let day_4 = dateNow.getDate(); 
+    let month_4 = dateNow.getMonth() + 1;
+
+    const sendData = (today, month, year) => {
         setFirst(false);
         let todays = "";
         // 선택한 날짜 보내주기
         setDDD(today)
-        todays = year+month + today
+        todays = year.toString()+ month + today
         props.chooseDays(todays);
-        //console.log("todays -----------> ", todays)
+        console.log("todays -----------> ", todays)
     }
     useEffect(() => {
        if(first){
@@ -30,14 +49,20 @@ const TodaysPage = (props) => {
         setDDD(day)
        }
     },[])
+    
+    // const LDay = new Date(year, month-1, 0) // 지난달의 마지막 날 구하기
+    // const lastDay = LDay.getDate();
+    //console.log("last day --> " , LDay.getDate())
+
+    
 
     return (
         <View style={styles.daystouch}>
-            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day-4)}><Text style={[styles.dayText2, ddd == (day-4) ?styles.todayText:null]}>{day-4}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day-3)}><Text style={[styles.dayText2, ddd == (day-3)?styles.todayText:null]}>{day-3}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day-2)}><Text style={[styles.dayText2, ddd == (day-2)?styles.todayText:null]}>{day-2}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day-1)}><Text style={[styles.dayText2, ddd == (day-1)?styles.todayText:null]}>{day-1}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day)}><Text style={[styles.dayText2, ddd == day?styles.todayText:null]}>{day}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day_4, month_4, year_4)}><Text style={[styles.dayText2, ddd == (day_4) ?styles.todayText:null]}>{day_4}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day_3, month_3, year_3)}><Text style={[styles.dayText2, ddd == (day_3)?styles.todayText:null]}>{day_3}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day_2, month_2, year_2)}><Text style={[styles.dayText2, ddd == (day_2)?styles.todayText:null]}>{day_2}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day_1, month_1, year_1)}><Text style={[styles.dayText2, ddd == (day_1)?styles.todayText:null]}>{day_1}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day, month, year)}><Text style={[styles.dayText2, ddd == day?styles.todayText:null]}>{day}</Text></TouchableOpacity>
             <AllTodos />
         </View>
     );
@@ -45,7 +70,8 @@ const TodaysPage = (props) => {
 const styles = StyleSheet.create({
     daystouch: {
         flexDirection: 'row',
-        margin: 5
+        margin: 5,
+        marginTop: 30,
     },
     daystext: {
         margin: 5,

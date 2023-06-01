@@ -17,10 +17,16 @@ const RoutinePage = (props) => {
     const [original, setOriginal] = useState('');
     const [days, setDays] = useState('');
     
+    const CheckingDay = () => {
+        if(props.rvalue == 'Day'){
+            routineValue('Day, ' + props.rtime)
+            console.log("Day, " , props.rtime);
+        }
+    }
     function sendData(){ // 완료 버튼 때 실행되게 만들기
         //props.setResult(props.value);
         let vvalue = original + ", " + props.value
-        console.log("vvalue : ", vvalue)
+        //console.log("vvalue : ", vvalue)
         props.setValue(vvalue);
     };
     
@@ -40,7 +46,7 @@ const RoutinePage = (props) => {
             routineText(result[0], result[1])
         }
         
-        // console.log("resut0  ", result[0])
+         //console.log("resut1  ", result[1])
         // console.log("resut1  ", result[1])
         // switch(result[0]){
         //     case 'Time':
@@ -59,20 +65,27 @@ const RoutinePage = (props) => {
     };
     const routineText = (textValue, rtime) => {
         let vv;
-        
         switch(textValue){
             case 'Time':
-                vv = '선택한 루틴 : ' + rtime + '시간 마다 반복';
-                return setWhichRoutine(vv);
+                if(rtime != null){
+                    vv = '선택한 루틴 : ' + rtime + '시간 마다 반복';
+                    return setWhichRoutine(vv);
+                }
             case 'Day':
+                if(rtime != null){
                 vv = '선택한 루틴 : ' + rtime + '요일 마다 반복';
                 return setWhichRoutine(vv);
+                }
             case 'Week':
+                if(rtime != null){
                 vv = '선택한 루틴 : ' + rtime + '주 마다 반복';
                 return setWhichRoutine(vv);
+                }
             case 'Month':
+                if(rtime != null){
                 vv = '선택한 루틴 : ' + rtime + '달 마다 반복';
                 return setWhichRoutine(vv);
+                }
             default:
                 vv = '루틴을 설정하지 않았습니다.';
                 return setWhichRoutine(vv);
@@ -146,7 +159,7 @@ const RoutinePage = (props) => {
             
             <Button
             title='루틴'
-            onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime);}}>
+            onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime); CheckingDay();}}>
             </Button>
             {/*<Text>전달 받은 {props.value}</Text>*/}
         </View>

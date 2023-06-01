@@ -8,6 +8,7 @@ import Loading from '../components/Loading';
 import Today from '../components/TodaysPage';
 import Weather from './Weather';
 import {Dimensions} from 'react-native';
+import User from '../components/UserName';
 
 
 const isAndroid = Platform.OS === 'android';
@@ -292,7 +293,7 @@ const ToDoListApp = ({navigation, route}) => {
       //console.log("Whooooooooole -----> ", wholeTo_do)
         //console.log('This is contents : : : ', contents)
       })*/
-      console.log("확인: ", tt?tt:todays)
+      //console.log("확인: ", tt?tt:todays)
       final_day = tt?tt:todays
       await firebase_db.ref('/to_do/'+uniqueID+'/'+ final_day).once('value').then((snapshot) => {
         let td = snapshot.val();
@@ -435,7 +436,7 @@ const ToDoListApp = ({navigation, route}) => {
       //let r_num = Number(result[1]);
       let r_num = result[1]
       console.log("루틴 숫자들 : ", r_num);
-      console.log("============================================", r_id);
+     // console.log("============================================", r_id);
       //console.log("todos : ", todos);
       const updatedTodos = todos.map((todo) =>
         todo.id === r_id ? { ...todo, routine: r_num, type: result[0] } : todo // 3항 연산
@@ -455,7 +456,7 @@ const ToDoListApp = ({navigation, route}) => {
       uniqueID = Application.getIosIdForVendorAsync();
     }
     await setTodayDate(today)
-    console.log("todays >>>> ", today) //todayDate
+   // console.log("todays >>>> ", today) //todayDate
     loadTodosFromJson(today)
   };
 
@@ -483,10 +484,13 @@ const ToDoListApp = ({navigation, route}) => {
   
   return  ready ? <Loading /> : (    // 실제 화면에서 보여지는 내용
     <SafeAreaView  style={styles.container}>{/* SafeAreaView는 핸드폰 노치나 상태바에 화면이 가져지지 않도록 도와주는 도구*/}
+       <View style={styles.user}>
+        <User  />
+       </View>
       <View style={styles.Headings}>
         <Text style={styles.headingText}>To-Do List</Text>
         <Weather />
-        </View>
+      </View>
       
       <Today chooseDays={chooseDay} />
       
@@ -579,12 +583,22 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
   },
   Headings: {
     flexDirection: 'row',
+    alignItems: 'center',
+    //marginTop: 20,
+  },
+  user: {
+   // flex: 1,
+   height: 40,
+   marginTop: 10,
+   marginBottom: 10,
 
   },
   headingText:{
-    flex: 2,
-    fontSize: 50,
-    marginTop: 20
+    flex: 1.5,
+    fontSize: 40,
+    
+    //textAlign: 'center',
+   // marginTop: 20,
   },
   modalEditView: {
     flex: 1,

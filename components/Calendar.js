@@ -1,11 +1,15 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, FlatList, Pressable, Button, Modal, TextInput, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import React, { useState, useEffect } from 'react';
+//import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { v4 as uuidv4 } from "uuid";
 import isSameObj from "../utils/isSameObj";
 import SelectYearModal from "./Modal/SelectYearModal";
 import SelectMonthModal from "./Modal/SelectMonthModal";
+
+import { firebase_db } from "../firebaseConfig";
+import * as Application from 'expo-application';
+
 function Calendar() {
   const DATE = new Date();
   const YEAR = DATE.getFullYear();
@@ -38,7 +42,7 @@ function Calendar() {
     setYear(year);
     setMonth(month);
   };
-
+  
   return (
     <View style={S.calendarContainer}>
       <Header
@@ -114,9 +118,20 @@ function Body(props) {
     month: 0,
     date: 0,
   });
+
   const { year, month, date } = props;
+  const [todos, setTodos] = useState([]);
+  const isAndroid = Platform.OS === 'android';
+  const isIOS = Platform.OS === 'ios';
+  const [edited, setEdited] = useState('');
+  const [editID, setEditID] = useState(0); 
+  const [editTitle, setEditTitle] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [todayDate, setTodayDate] = useState('')
+
   useEffect(() => {
-    getTotalDays(year, month);
+    getTotalDays(year, month);  // 오늘 날짜
+
   }, [year, month, date]);
 
   const getTotalDays = (year, month) => {
@@ -159,6 +174,101 @@ function Body(props) {
     }
   };
   //{({ pressed }) => pressed && styles.pressedItem}
+  useEffect(() => {
+    loadingfromFirebase();
+    if(pressedDate.date != 0){
+
+      
+      setTodayDate(pressedDate.year.toString() + pressedDate.month + pressedDate.date);
+      console.log("todayDate ", todayDate)
+    }
+  }, [pressedDate]);
+  
+  useEffect(() => {
+    if(pressedDate.date != 0){
+      savingtoFirebase();
+      
+    }
+  }, [todos])
+
+
+  const loadingfromFirebase = async () => {
+    if(pressedDate.date != 0){
+      let uniqueID;
+      if(isAndroid){
+        let androID = Application.androidId;
+        //console.log("Here is Android : ", androID)
+        uniqueID = androID;
+      }else{
+        uniqueID = Application.getIosIdForVendorAsync();
+      }
+      const final_day = pressedDate.year.toString() + pressedDate.month + pressedDate.date;
+      //console.log("ppppp", final_day);
+      await firebase_db.ref('/to_do/'+uniqueID+'/'+ final_day).once('value').then((snapshot) => {
+        let td = snapshot.val();
+
+        if(td){
+          setTodos(td)
+          //console.log("td --> ", td)
+        }else{
+          setTodos([])
+          console.log("엘스ㅡㅡ")
+        }
+      }); 
+    }
+  }; 
+
+  const savingtoFirebase = async () => {
+    let uniqueID;
+      if(isAndroid){
+        let androID = Application.androidId;
+        //console.log("Here is Android : ", androID)
+        uniqueID = androID;
+      }else{
+        uniqueID = Application.getIosIdForVendorAsync();
+      }
+      const final_day = pressedDate.year.toString() + pressedDate.month + pressedDate.date;
+      //console.log("ppppp", final_day);
+      firebase_db.ref('/to_do/'+ uniqueID +'/'+ final_day).set(todos, function(error){
+        if(null){
+          console.log("This is error", error)
+        }        
+      });
+  };
+
+  const toggleTodoCompletion = (id) => {      // 투두 완료시 실행되는 함수
+    const updatedTodos = todos.map((todo)=>
+    todo.id === id ? {... todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
+  }
+  const handleEditTodo = (id, updatedTodo) => { //edit 버튼 누르면 실행되는 함수
+    setEditTitle(updatedTodo);        // 누른 todo의 내용 가져오는 함수 실행
+    setEditID(id);                    // 누른 todo의 id 가져오는 함수 실행
+    setModalVisible(!modalVisible);    // edit 모달 보여주는 함수 실행
+  };
+  const realEdit = () => {      //  실제로 todo 수정이 이루어지게 하는 함수
+    if (edited.trim()) {
+      console.log("edited: ", edited);
+      console.log("editTitle: ", editTitle);
+      const updatedTodos = todos.map((todo) =>
+        todo.id === editID ? { ...todo, title: edited } : todo // 3항 연산
+      );
+      setTodos(updatedTodos);
+      setEdited('');
+      //setEditTitle('');
+      setModalVisible(!modalVisible);
+    }
+  };
+  const handleDeleteTodo = (id) => {    // delete 버튼 눌렀을 떄 실행되는 함수
+    //const updatedTodos = [...todos];
+    //updatedTodos.splice(index, 1);
+    console.log("현재 todososo", id)
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+    loadingfromFirebase(todayDate);  // 로드
+  };
+
   return (
     <View>
       <View style={S.dayOfWeek}>
@@ -214,6 +324,73 @@ function Body(props) {
           })
         )}
       </View>
+      <FlatList // 작성한 todo들이 FlatList에 의해 보여지게 됨.
+        style={S.listSty}
+        data={todos} //todos    wholeTo_do
+        renderItem={({ item, index }) => (
+          <View >
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+              <View>
+              <Text style={S.headerText}>날짜별 TODO</Text>
+          </View>
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+          </View>
+            {/* <View style={{flex: 1, height: 1, backgroundColor: 'black', marginBottom:3,}} /> */}
+            
+            <View style={S.listView}>
+
+                <Text style={[S.textSty, item.completed ? S.completedTotoTitle : null]}
+                onPress={() => toggleTodoCompletion(item.id)}>{item.title}</Text>
+                <Text>{item.type}</Text>
+              <Button
+                //value={edited}
+                title='EDIT'
+                onPress={() => {handleEditTodo(item.id, item.title)}}
+                  //() => {handleEditTodo(item.id, item.title)
+                  // Show edit modal or navigate to edit screen
+                //}}
+              />
+              <Button title="Delete" onPress={() => handleDeleteTodo(item.id)} />
+              
+            </View>
+           
+          </View>
+          
+        )}
+        
+        keyExtractor={(item, index) => index.toString()}
+      /> 
+      <Modal visible={modalVisible} // <-- edit 모달을 위에다 미리 작성함
+        animationType='slide'
+        transparent={true}
+        
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+         <View style={S.modalEditView}>
+          <View style={S.modalView}>
+            <TextInput
+                //value={edited}//edited
+                defaultValue= {editTitle}
+                style={S.editSty}
+                onChangeText={setEdited}
+                //onPressIn={() => console.log("edit: ", editTitle)}
+            ></TextInput>
+            <View style={S.comcanBtn}>
+            <TouchableOpacity
+              style={[S.button, S.buttonClose]}
+              onPress={() => realEdit()}
+            ><Text style={S.textStyle}>  완료  </Text></TouchableOpacity>
+            <TouchableOpacity
+              style={[S.button, S.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            ><Text style={S.textStyle}>  취소  </Text></TouchableOpacity>
+            </View>
+          </View>
+          </View>
+      </Modal>
     </View>
   );
 }
@@ -275,6 +452,80 @@ const S = StyleSheet.create({
   },
   pressed: {
     opacity: 0.3,
+  },
+
+  headerText:{
+    fontWeight: 700,
+    fontSize: 20,
+    width: 150,
+    textAlign: 'center',
+    marginBottom: 5,
+    marginTop: 5,
+  },
+  listSty: {
+    paddingBottom: 20,
+    marginBottom: 40
+  }, 
+  listView: {
+    flexDirection: 'row',
+    margin: 2,
+  },
+  modalEditView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+    //backgroundColor: "#fff",
+  },
+  modalView : {
+    margin: 20,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: 200,
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+    flex: 1,
+    height: 50,
+    margin: 20,
+    marginTop: 50
+  },
+  editSty: {
+    borderWidth: 1,
+    margin: 3,
+    width: 300,
+    paddingLeft: 5,
+    justifyContent: 'center',
+    
+  },
+  completedTotoTitle: {
+    textDecorationLine: 'line-through',
+    backgroundColor: '#8E9DA5'
+  },
+  comcanBtn:{ // 완료 취소 버튼
+    flexDirection: 'row',
+    flex: 1
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 15
+  },
+  textSty: {
+    flex: 1,
+    justifyContent: 'center',
+    textAlignVertical: 'center',
   },
 });
 const changeColorByDay = (day) =>

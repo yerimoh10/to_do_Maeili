@@ -47,7 +47,7 @@ export default function Weather() {
   }, []);
   
   return (
-    <SafeAreaView>
+    // <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.day}>
           <View style={styles.left}>
@@ -64,16 +64,17 @@ export default function Weather() {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //borderWidth: 2,
-    marginTop: 7,
+    borderWidth: 0,
+   // marginTop: 7,
     //padding: 8,
+    
   },
   day: {
     flex: 0.3,
@@ -84,31 +85,32 @@ const styles = StyleSheet.create({
   weather: {
     fontSize: 13,
     marginBottom: 5,
-    height: 15,
+    height: 25,
   },
   descreption: {
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 20,
-    marginLeft: 10,
-    marginTop: 15,
+   // marginRight: 10,
+    //marginLeft: 10,
+   // marginTop: 15,
     height: 40,
   },
   temp: {
     fontSize: 30,
     height: 30,
     marginTop: 10,
+    marginBottom: 10,
   },
   city: {
     fontSize: 20,
 
   },
   left:{
-    marginTop: 8,
+   // marginTop: 5,
     flexDirection: "column", 
     alignItems: "center",
     padding: 5,
-    //margin: 10,
+   // margin: 5,
   },
 
 });

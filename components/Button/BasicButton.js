@@ -3,8 +3,8 @@ import { View, Pressable, Text, StyleSheet } from "react-native";
 function BasicButton({
   onPress,
   title = "Button",
-  backgroudColor = "#007AFF",
-  fontSize = 16,
+  backgroudColor = "#a36ff7",
+  fontSize = 20,
   width,
   height,
   color,
@@ -34,11 +34,12 @@ const S = StyleSheet.create({
     elevation: 3,
   },
   text: {
+    fontStyle: "italic",
     fontSize: 16,
     lineHeight: 21,
-    fontWeight: "bold",
+    fontWeight: "700",
     letterSpacing: 0.25,
-    color: "white",
+    color: "mauve",
   },
 });
 export default BasicButton;

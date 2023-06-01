@@ -22,7 +22,7 @@ const BasicModal = ({
           transparent={transparent}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
+            Alert.alert("닫으시려면 뒤로가기를 한번 더 눌러주세요.");
             setModalVisible(false);
           }}
         >
@@ -57,6 +57,9 @@ const S = StyleSheet.create({
     flex: 1,
     marginTop: 22,
   },
+
+
+
   modalView: {
     margin: 20,
     backgroundColor: "white",
