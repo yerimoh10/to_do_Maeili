@@ -28,7 +28,7 @@ const ToDoListApp = ({navigation, route}) => {
   const [todayDate, setTodayDate] = useState('')
   const [ready, setReady] = useState(true);
   const [firstSave, setFirstSave] = useState(false);
-  const [wholeTo_do, setWholeTo_do] = useState([])
+  const [wholeTo_do, setWholeTo_do] = useState([]);
   
 
 
@@ -497,11 +497,12 @@ const ToDoListApp = ({navigation, route}) => {
       <View style={styles.addView}>
         <TextInput
           style={styles.inputBox}
-          placeholder="Enter a to-do item"
+          placeholder="to do를 입력하세요"
           value={newTodo}
           onChangeText={setNewTodo}
         />
-        <Button style={styles.addBtn} title="  👈  " onPress={handleAddTodo} />
+        <TouchableOpacity style={styles.addBtn} onPress={handleAddTodo}><Text style={styles.addText}> + </Text></TouchableOpacity>
+        {/* <Button  title="  +  " onPress={handleAddTodo} /> */}
       </View>
       <View>
       <Modal visible={modalVisible} // <-- edit 모달을 위에다 미리 작성함
@@ -545,17 +546,16 @@ const ToDoListApp = ({navigation, route}) => {
 
                 <Text style={[styles.textSty, item.completed ? styles.completedTotoTitle : null]}
                 onPress={() => toggleTodoCompletion(item.id)}>{item.title}</Text>
-                <Text>{item.type}</Text>
-              <Button
-                //value={edited}
-                title='EDIT'
-                onPress={() => {handleEditTodo(item.id, item.title)}}
-                  //() => {handleEditTodo(item.id, item.title)
-                  // Show edit modal or navigate to edit screen
-                //}}
-              />
-              <Button title="Delete" onPress={() => handleDeleteTodo(item.id)} />
-              <Routine  value={item.id} rvalue={item.type} rtime={item.routine} setValue={checkingRoutine} />{/* 자식컴포넌트에서 직접 그림 setResult={checkingID}*/}
+                <View style={[item.type? styles.typeView : null]}><Text style={styles.typeSty}>{item.type}</Text></View>
+                <TouchableOpacity  style={styles.editTouch}onPress={() => {handleEditTodo(item.id, item.title)}}>
+                  <Text style={styles.editText}> 수정 </Text>
+                </TouchableOpacity>
+                <TouchableOpacity  style={styles.editTouch} onPress={() => handleDeleteTodo(item.id)}>
+                  <Text style={styles.editText}> 삭제 </Text>
+                </TouchableOpacity>
+              
+              
+              <Routine value={item.id} rvalue={item.type} rtime={item.routine} setValue={checkingRoutine} />{/* 자식컴포넌트에서 직접 그림 setResult={checkingID}*/}
                 {/*{value} 사용해서 자식 컴포넌트에서 넘어오는 값 사용할 수 있음 */}
             </View>
            
@@ -578,12 +578,13 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
   container: {
     padding: 30,
     paddingBottom: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#fbfbff",
     height: windowHeight,
   },
   Headings: {
     flexDirection: 'row',
     alignItems: 'center',
+    fontFamily: "DancingScript-Bold",
     //marginTop: 20,
   },
   user: {
@@ -596,7 +597,7 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
   headingText:{
     flex: 1.5,
     fontSize: 40,
-    
+    fontFamily: 'DancingScript-Bold'
     //textAlign: 'center',
    // marginTop: 20,
   },
@@ -608,7 +609,7 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
   },
   modalView : {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#f3e6ff',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -623,17 +624,18 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
     height: 200,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#DCB3FE',
     flex: 1,
     height: 50,
     margin: 20,
-    marginTop: 50
+    marginTop: 40,
+    borderRadius: 15,
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 15
+    marginTop: 15,
   },
   addView:{
     flexDirection: 'row',
@@ -641,26 +643,42 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
     marginBottom: 20
   },
   inputBox: {
-    flex: 2,
-    borderWidth:1
+    flex: 6,
+    borderWidth:1,
+    borderColor: 'darkgray',
+    padding: 3,
+    paddingLeft: 7,
+    borderRadius: 12,
+    fontFamily: 'WomanFlower',
   },
   addBtn: {
     flex: 1,
+  },
+  addText: {
     fontWeight: 700,
-    padding: 60
+    fontSize: 40,
+    backgroundColor: "#DCB3FE",   //<----- A 버튼 색상 값
+    borderRadius: 15,
+    marginLeft: 10,
+    textAlign: 'center',
+    color: "#fff"
   },
   listSty: {
     paddingBottom: 20,
-    marginBottom: 40
+    marginBottom: 40,
+
   }, 
   listView: {
     flexDirection: 'row',
     margin: 2,
+    marginBottom: 5,
   },
   textSty: {
     flex: 1,
     justifyContent: 'center',
     textAlignVertical: 'center',
+    fontSize: 17,
+    fontFamily: 'WomanFlower',
   },
   editSty: {
     borderWidth: 1,
@@ -668,15 +686,42 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
     width: 300,
     paddingLeft: 5,
     justifyContent: 'center',
-    
+    borderColor: 'darkgray',
+    fontFamily: 'WomanFlower',
+    fontSize: 25,
+  },
+  editText: {
+    color: "darkgray",
+    margin: 5,
+    fontSize: 17,
+    fontFamily: 'WomanFlower',
+  },
+  editTouch:{
+    backgroundColor: '#f6ebff',
+    justifyContent:'center',
+    marginRight: 6,
+    borderRadius: 15,
   },
   completedTotoTitle: {
     textDecorationLine: 'line-through',
-    backgroundColor: '#8E9DA5'
+    backgroundColor: '#A76EBE'
   },
   comcanBtn:{ // 완료 취소 버튼
     flexDirection: 'row',
     flex: 1
+  },
+  typeSty:{
+    color: "#fff",
+    margin: 5,
+    fontSize: 17,
+    fontFamily: 'WomanFlower',
+    //backgroundColor: '#f6ebff',
+  },
+  typeView:{
+    backgroundColor: '#a76fbd',
+    justifyContent:'center',
+    marginRight: 6,
+    borderRadius: 15,
   }
 })
 export default ToDoListApp;

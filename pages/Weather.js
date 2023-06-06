@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginBottom: 5,
     height: 25,
+    fontFamily: 'WomanFlower',
   },
   descreption: {
     justifyContent: "center",
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   },
   city: {
     fontSize: 20,
-
+    fontFamily: 'WomanFlower',
   },
   left:{
    // marginTop: 5,

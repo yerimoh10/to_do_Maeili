@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     },
     modalView : {
         margin: 20,
-        backgroundColor: 'white',
+        backgroundColor: '#f6ebff',
         borderRadius: 5,
         padding: 35,
         alignItems: 'center',
@@ -183,14 +183,16 @@ const styles = StyleSheet.create({
     },
     completedTotoTitle: {
       textDecorationLine: 'line-through',
-      backgroundColor: '#8E9DA5'
+      backgroundColor: '#A76EBE'
     },
     cancelsty: {
-      justifyContent: "center",
-      // flex: 'flex-end',
+      //justifyContent: "center",
+      flex: 1,
       width: 20,
       height: 20,
-      resizeMode: "cover",
+      //resizeMode: "cover",
+      resizeMode: "contain",
+      overflow: "hidden",
     },
 
 })

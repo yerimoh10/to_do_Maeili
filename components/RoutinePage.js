@@ -4,7 +4,7 @@ import Day from './DaySelectPage';
 import Time from './TimeSelectPage';
 import Week from './WeekSelectPage';
 import Month from './MonthSelectPage';
-import setting from "../assets/setting_picpng.png";
+import setting from "../assets/setting_pic.png";
 import { firebase_db } from "../firebaseConfig";
 import * as Application from 'expo-application';
 
@@ -33,6 +33,7 @@ const RoutinePage = (props) => {
     const routineValue = (rvalue) => {
         let result = rvalue.split(',');
         setOriginal(rvalue);
+        
 
         if(result[0] == 'Day'){ // 화면에 보여주기 위한 기능
             if(result[1] == 1) { routineText(result[0], '월'); }
@@ -41,12 +42,12 @@ const RoutinePage = (props) => {
             if(result[1] == 4) { routineText(result[0], '목'); }
             if(result[1] == 5) { routineText(result[0], '금'); }
             if(result[1] == 6) { routineText(result[0], '토'); }
-            if(result[1] == 0) { routineText(result[0], '일'); }
+            if(result[1] == 7) { routineText(result[7], '일'); }
         }else{
             routineText(result[0], result[1])
         }
         
-         //console.log("resut1  ", result[1])
+        // console.log("resut1  ", typeof(result[1]))
         // console.log("resut1  ", result[1])
         // switch(result[0]){
         //     case 'Time':
@@ -65,24 +66,25 @@ const RoutinePage = (props) => {
     };
     const routineText = (textValue, rtime) => {
         let vv;
+        console.log("This is ravale ", rtime.length)
         switch(textValue){
             case 'Time':
-                if(rtime != null){
+                if(rtime != " "){
                     vv = '선택한 루틴 : ' + rtime + '시간 마다 반복';
                     return setWhichRoutine(vv);
                 }
             case 'Day':
-                if(rtime != null){
+                if(rtime != " "){
                 vv = '선택한 루틴 : ' + rtime + '요일 마다 반복';
                 return setWhichRoutine(vv);
                 }
             case 'Week':
-                if(rtime != null){
+                if(rtime != " "){
                 vv = '선택한 루틴 : ' + rtime + '주 마다 반복';
                 return setWhichRoutine(vv);
                 }
             case 'Month':
-                if(rtime != null){
+                if(rtime != " "){
                 vv = '선택한 루틴 : ' + rtime + '달 마다 반복';
                 return setWhichRoutine(vv);
                 }
@@ -99,7 +101,7 @@ const RoutinePage = (props) => {
     };
 
     const Reset = () => {
-        setOriginal(' , ');
+        setOriginal(', ');
         routineText('', '')
         Alert.alert('초기화 되었습니다.');
     };
@@ -156,11 +158,13 @@ const RoutinePage = (props) => {
                     </View>
                 </View>
             </Modal>
-            
-            <Button
+            <TouchableOpacity style={styles.editTouch} onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime); CheckingDay();}}>
+                <Text style={styles.editText}> 루틴 </Text>
+            </TouchableOpacity>
+            {/* <Button
             title='루틴'
             onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime); CheckingDay();}}>
-            </Button>
+            </Button> */}
             {/*<Text>전달 받은 {props.value}</Text>*/}
         </View>
     );
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
     },
     modalView : {
         margin: 20,
-        backgroundColor: 'white',
+        backgroundColor: '#f3e6ff',
         borderRadius: 20,
         padding: 35,
         alignItems: 'center',
@@ -188,15 +192,16 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: 400,
+        height: 350,
         width: 350
     },
     buttonClose: {
-        backgroundColor: '#2196F3',
+        backgroundColor: '#DCB3FE',
         flex: 1,
         height: 50,
         margin: 20,
-        marginTop: 50
+        marginTop: 40,
+        borderRadius: 15,
       },
     textStyle: {
         color: 'white',
@@ -249,6 +254,17 @@ const styles = StyleSheet.create({
         height: 20,
         resizeMode: "contain",
         overflow: "hidden",
+    },
+    editTouch:{
+        backgroundColor: '#DCB3FE',
+        justifyContent:'center',
+        borderRadius: 15,
+    },
+    editText: {
+        color: "#fff",
+        margin: 5,
+        fontSize: 17,
+        fontFamily: 'WomanFlower',
     },
 });
 

@@ -324,44 +324,31 @@ function Body(props) {
           })
         )}
       </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
+                <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+                <View><Text style={S.headerText}>날짜별 TODO</Text></View>
+                <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+            </View>
       <FlatList // 작성한 todo들이 FlatList에 의해 보여지게 됨.
         style={S.listSty}
         data={todos} //todos    wholeTo_do
         renderItem={({ item, index }) => (
-          <View >
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-              <View>
-              <Text style={S.headerText}>날짜별 TODO</Text>
-          </View>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          </View>
-            {/* <View style={{flex: 1, height: 1, backgroundColor: 'black', marginBottom:3,}} /> */}
-            
             <View style={S.listView}>
-
                 <Text style={[S.textSty, item.completed ? S.completedTotoTitle : null]}
                 onPress={() => toggleTodoCompletion(item.id)}>{item.title}</Text>
-                <Text>{item.type}</Text>
-              <Button
-                //value={edited}
-                title='EDIT'
-                onPress={() => {handleEditTodo(item.id, item.title)}}
-                  //() => {handleEditTodo(item.id, item.title)
-                  // Show edit modal or navigate to edit screen
-                //}}
-              />
-              <Button title="Delete" onPress={() => handleDeleteTodo(item.id)} />
-              
+                 <View style={[item.type? S.typeView : null]}><Text style={S.typeSty}>{item.type}</Text></View>
+              <TouchableOpacity style={S.editTouch} onPress={() => {handleEditTodo(item.id, item.title)}}>
+                <Text style={S.editText}> 수정 </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={S.editTouch} onPress={() => handleDeleteTodo(item.id)}>
+                <Text style={S.editText}> 삭제 </Text>
+              </TouchableOpacity>              
             </View>
-           
-          </View>
-          
         )}
         
         keyExtractor={(item, index) => index.toString()}
       /> 
-      <Modal visible={modalVisible} // <-- edit 모달을 위에다 미리 작성함
+      <Modal visible={modalVisible}
         animationType='slide'
         transparent={true}
         
@@ -402,7 +389,7 @@ const S = StyleSheet.create({
     width: "100%",
     minHeight: "50%",
     borderBottomColor: "black",
-    backgroundColor: "#fff",
+    backgroundColor: "#fbfbff",
     paddingHorizontal: 16,
   },
   header: {
@@ -455,12 +442,13 @@ const S = StyleSheet.create({
   },
 
   headerText:{
-    fontWeight: 700,
+    fontWeight: 600,
     fontSize: 20,
     width: 150,
     textAlign: 'center',
     marginBottom: 5,
     marginTop: 5,
+    fontFamily: 'WomanFlower',
   },
   listSty: {
     paddingBottom: 20,
@@ -479,7 +467,7 @@ const S = StyleSheet.create({
   },
   modalView : {
     margin: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f3e6ff',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -494,11 +482,12 @@ const S = StyleSheet.create({
     height: 200,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#DCB3FE',
     flex: 1,
     height: 50,
     margin: 20,
-    marginTop: 50
+    marginTop: 40,
+    borderRadius: 15,
   },
   editSty: {
     borderWidth: 1,
@@ -506,11 +495,13 @@ const S = StyleSheet.create({
     width: 300,
     paddingLeft: 5,
     justifyContent: 'center',
-    
+    borderColor: 'darkgray',
+    fontFamily: 'WomanFlower',
+    fontSize: 25,
   },
   completedTotoTitle: {
     textDecorationLine: 'line-through',
-    backgroundColor: '#8E9DA5'
+    backgroundColor: '#A76EBE'
   },
   comcanBtn:{ // 완료 취소 버튼
     flexDirection: 'row',
@@ -526,6 +517,33 @@ const S = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     textAlignVertical: 'center',
+    fontSize: 17,
+    fontFamily: 'WomanFlower',
+  },
+  typeView: {
+    backgroundColor: '#a76fbd',
+    justifyContent:'center',
+    marginRight: 6,
+    borderRadius: 15,
+  },
+  typeSty:{
+    color: "#fff",
+    margin: 5,
+    fontSize: 17,
+    fontFamily: 'WomanFlower',
+    //backgroundColor: '#f6ebff',
+  },
+  editText: {
+    color: "darkgray",
+    margin: 5,
+    fontSize: 17,
+    fontFamily: 'WomanFlower',
+  },
+  editTouch:{
+    backgroundColor: '#f6ebff',
+    justifyContent:'center',
+    marginRight: 6,
+    borderRadius: 15,
   },
 });
 const changeColorByDay = (day) =>

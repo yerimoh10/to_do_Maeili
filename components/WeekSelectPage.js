@@ -94,16 +94,17 @@ const WeekSelectPage = (props) => {
 
 const styles = StyleSheet.create({
     weektouch: {
-        backgroundColor: '#2196F3', 
-        height: 40,
+        backgroundColor: '#DCB3FE', 
+        height: 50,
         width: 60,
         marginTop: 20,
         margin: 10,
+        borderRadius: 15,
+        justifyContent: 'center',
     },
     weekHeader: {
         textAlign: 'center',
         color: 'white',
-        marginTop: 10,
     },
     weekModalView: {
         flex: 1,
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     },
     scrollSty: {
         margin: 20,
-        backgroundColor: 'skyblue',
+        backgroundColor: '#e0baff',
         borderRadius: 20,
         padding: 15,
         alignItems: 'center',
@@ -131,18 +132,20 @@ const styles = StyleSheet.create({
     },
     timesty: {
         borderWidth: 1,
-        width: 150,
-        height: 30,
-        margin: 1,
+        width: 180,
+        height: 33,
+        margin: 1.5,
         alignItems: 'center',
-        flex: 1,
+        borderColor: '#f3e6ff',
+        borderRadius: 15,
     },
     buttonClose: {
-        backgroundColor: '#2196F3', 
+        backgroundColor: '#A76EBE', 
         height: 40,
         width: 120,
         marginTop: 10,
-        
+        borderRadius: 15,
+        //justifyContent: 'center',
     },
     textClose: {
         color: 'white',
@@ -151,14 +154,16 @@ const styles = StyleSheet.create({
         marginTop: 13,
     },
     completedTotoTitle: {
-        backgroundColor: '#8E9DA5'
+        backgroundColor: '#A76EBE'
     }, 
     weekTextsty: {
         marginTop: 4,
+        color: 'white'
     },
     chooseWeek: {
         fontSize: 20,
-        marginBottom: 10
+        marginBottom: 10,
+        color: 'white',
     },
 });
 

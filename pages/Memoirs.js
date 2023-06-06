@@ -146,7 +146,7 @@ export default function Memoirs() {
         <View style={styles.addBtn}>
           <View style={styles.addBtnStyle}>
             <TouchableOpacity onPress={()=>setWriteMode(true)}>
-              <Text>Write</Text>
+              <Text style={styles.font}>Write</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -167,16 +167,16 @@ export default function Memoirs() {
 const styles = StyleSheet.create({
  firContainer: {
   flex:1,
-  backgroundColor: "white",
+  backgroundColor: "#fbfbff",
  },
  firSafeAreaView:{
   flex:1,
-  backgroundColor: "white",
+  backgroundColor: "#fbfbff",
   padding: 15,
  },
  secSafeAreaView:{
   flex:1,
-  backgroundColor: "white",
+  backgroundColor: "#fbfbff",
  },
  header:{
   marginVertical: 10,
@@ -190,10 +190,11 @@ const styles = StyleSheet.create({
   padding: 20,
   textAlign: "left",
   marginTop: 10,
+  fontFamily: 'WomanFlower',
  },
  memoArea:{
   flex:1, 
-  backgroundColor:"#fff",
+  backgroundColor:"#fbfbff",
   margin: 10,
  },
  btnWork:{
@@ -211,14 +212,14 @@ const styles = StyleSheet.create({
  addBtnStyle: {
   width: 70, 
   height:70,
-  backgroundColor: "skyblue",
+  backgroundColor: "#DCB3FE",
   borderRadius:35,
   justifyContent:"center",
   alignItems:"center",
  },
  inputArea: {
   flex:1,
-  backgroundColor:"#fff",
+  backgroundColor:"#fbfbff",
   margin: 10
  },
  btnClick: {
@@ -238,6 +239,8 @@ const styles = StyleSheet.create({
  },
  memoirList: {
   marginRight:10,
+  fontFamily: 'WomanFlower',
+  fontSize: 17,
  },
  TextInput:{
   flex: 0.9,
@@ -247,7 +250,7 @@ const styles = StyleSheet.create({
  },
  writeText: {
   flex:1,
-  textAlign: "center"
+  textAlign: "center",
  },
  qView: {
   justifyContent: "center",
@@ -257,8 +260,15 @@ const styles = StyleSheet.create({
   padding: 10,
   marginBottom: 10,
   margin: 5,
-  backgroundColor: 'lightgrey',
+  backgroundColor: '#f6ebff',
   height: 70,
+  fontFamily: 'WomanFlower',
+  fontWeight: 600,
+  fontSize: 20,
  },
+ font: {
+  fontFamily: 'WomanFlower',
+  fontSize: 25,
+ }
 
 });

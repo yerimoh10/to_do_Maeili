@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     marginBottom: 16,
     paddingHorizontal: 8,
+    fontFamily: 'WomanFlower',
   },
   button: {
     padding: 12,
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
   },
   savedName: {
     fontSize: 33,
+    fontFamily: 'WomanFlower',
   },
   bannerSty: {
 

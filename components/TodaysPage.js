@@ -57,7 +57,10 @@ const TodaysPage = (props) => {
     
 
     return (
+        <View style={styles.todayy}>
+            <View style={{height: 1, backgroundColor: 'lightgray'}} />
         <View style={styles.daystouch}>
+            
             <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day_4, month_4, year_4)}><Text style={[styles.dayText2, ddd == (day_4) ?styles.todayText:null]}>{day_4}</Text></TouchableOpacity>
             <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day_3, month_3, year_3)}><Text style={[styles.dayText2, ddd == (day_3)?styles.todayText:null]}>{day_3}</Text></TouchableOpacity>
             <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day_2, month_2, year_2)}><Text style={[styles.dayText2, ddd == (day_2)?styles.todayText:null]}>{day_2}</Text></TouchableOpacity>
@@ -65,13 +68,18 @@ const TodaysPage = (props) => {
             <TouchableOpacity style={styles.daystext} onPress={()=>sendData(day, month, year)}><Text style={[styles.dayText2, ddd == day?styles.todayText:null]}>{day}</Text></TouchableOpacity>
             <AllTodos />
         </View>
+        <View style={{height: 1, backgroundColor: 'lightgray'}} />
+        </View>
     );
 }
 const styles = StyleSheet.create({
+    todayy:{
+        marginTop: 30,
+    },
     daystouch: {
         flexDirection: 'row',
         margin: 5,
-        marginTop: 30,
+        //
     },
     daystext: {
         margin: 5,

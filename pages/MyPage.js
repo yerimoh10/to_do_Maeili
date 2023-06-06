@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet} from "react-native";
 import BasicButton from "../components/Button/BasicButton";
 import { useState } from "react";
 import BasicModal from "../components/Modal/BasicModal";
@@ -9,12 +9,13 @@ function MyPage() {
   };
 
   return (
-    <>
+    <View style={{backgroundColor: "#fbfbff"}}>
       <View
         style={{
           alignItems: "center",
           justifyContent: "center",
           marginTop: 350,
+          marginBottom: 400, // 배경화면 채우기 위한 margin 
         }}
       >
         <BasicButton
@@ -34,7 +35,7 @@ function MyPage() {
         </View>
         </BasicModal>
       </View>
-    </>
+    </View>
   );
 }
 export default MyPage;

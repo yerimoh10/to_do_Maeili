@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     },
     scrollSty: {
         margin: 20,
-        backgroundColor: 'skyblue',
+        backgroundColor: '#e0baff',
         borderRadius: 20,
         padding: 15,
         alignItems: 'center',
@@ -118,18 +118,21 @@ const styles = StyleSheet.create({
     },
     daysty:{
         borderWidth: 1,
-        width: 150,
-        height: 30,
-        margin: 1,
+        width: 180,
+        height: 33,
+        margin: 1.5,
         alignItems: 'center',
-        
+        borderColor: '#f3e6ff',
+        borderRadius: 15,
     },
     
     buttonClose: {
-        backgroundColor: '#2196F3',
+        backgroundColor: '#A76EBE', 
         height: 40,
         width: 120,
         marginTop: 10,
+        borderRadius: 15,
+        //justifyContent: 'center',
     },
     textClose: {
         color: 'white',
@@ -138,26 +141,29 @@ const styles = StyleSheet.create({
         marginTop: 13,
     },
     completedTotoTitle: {
-        backgroundColor: '#8E9DA5'
+        backgroundColor: '#A76EBE'
     },
     dayHeader: {
         textAlign: 'center',
         color: 'white',
-        marginTop: 10,
     },
     daytouch: {
-        backgroundColor: '#2196F3',
-        height: 40,
-        margin: 10,
+        backgroundColor: '#DCB3FE', 
+        height: 50,
         width: 60,
-        marginTop: 20
+        marginTop: 20,
+        margin: 10,
+        borderRadius: 15,
+        justifyContent: 'center',
     },
     dayTextsty: {
         marginTop: 4,
+        color: 'white',
     },
     chooseDay: {
         fontSize: 20,
         marginBottom: 10,
+        color: 'white'
     },
 });
 
