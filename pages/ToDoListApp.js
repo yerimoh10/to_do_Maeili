@@ -16,6 +16,7 @@ const isIOS = Platform.OS === 'ios';
 
 // 메인 페이지: 여기서 투두 작성, 수정, 삭제 다 관리하는 페이지
 const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 const ToDoListApp = ({navigation, route}) => {
   console.disableYellowBox = true;
@@ -29,7 +30,7 @@ const ToDoListApp = ({navigation, route}) => {
   const [ready, setReady] = useState(true);
   const [firstSave, setFirstSave] = useState(false);
   const [wholeTo_do, setWholeTo_do] = useState([]);
-  
+  console.log("tttt", windowHeight)
 
 
   var timer_id=-1;
@@ -187,14 +188,15 @@ const ToDoListApp = ({navigation, route}) => {
 
   const todaysDate = async () => {
     let uniqueID
-      if(isAndroid){
-        let androID = await Application.androidId;
-        //console.log("Here is Android : ", androID)
-        uniqueID = androID
-      }else{
-        uniqueID = Application.getIosIdForVendorAsync();
-      }
-      //console.log('uniqueID :: ', uniqueID)
+    if(isIOS){
+      let iosId = await Application.getIosIdForVendorAsync();
+      uniqueID=iosId;
+      //console.log("Here is Android : ", androID)
+    }else if(isAndroid){
+      let androID = Application.androidId;
+      uniqueID = androID
+    }
+  
 
     let time = new Date();
     let todays = "";
@@ -257,14 +259,14 @@ const ToDoListApp = ({navigation, route}) => {
     //   setTodos(todosData.todos || []);
     //   console.log(">>>>>>>>>>>>>>>>>>", todosData)
       let uniqueID
-      if(isAndroid){
-        let androID = await Application.androidId;
+      if(isIOS){
+        let iosId = await Application.getIosIdForVendorAsync();
+        uniqueID=iosId;
         //console.log("Here is Android : ", androID)
+      }else if(isAndroid){
+        let androID = Application.androidId;
         uniqueID = androID
-      }else{
-        uniqueID = Application.getIosIdForVendorAsync();
       }
-      //console.log('uniqueID :: ', uniqueID)
       let time = new Date();
       let todays = "";
       let year = time.getFullYear().toString();
@@ -322,12 +324,13 @@ const ToDoListApp = ({navigation, route}) => {
       //firebase에 투두 저장
       let uniqueID;
 
-      if(isAndroid){
-        let androID = await Application.androidId;
+      if(isIOS){
+        let iosId = await Application.getIosIdForVendorAsync();
+        uniqueID=iosId;
         //console.log("Here is Android : ", androID)
+      }else if(isAndroid){
+        let androID = Application.androidId;
         uniqueID = androID
-      }else{
-        uniqueID = Application.getIosIdForVendorAsync();
       }
       //console.log('uniqueID :: ', uniqueID)
       // firebase_db.ref('/to_do/'+uniqueID+'/').set(todos, function(error){ // '/to_do'+ uniqueID +'/'
@@ -448,12 +451,13 @@ const ToDoListApp = ({navigation, route}) => {
   const chooseDay = async (day) => {
     let uniqueID;
     let today = day;
-    if(isAndroid){
-      let androID = await Application.androidId;
+    if(isIOS){
+      let iosId = await Application.getIosIdForVendorAsync();
+      uniqueID=iosId;
       //console.log("Here is Android : ", androID)
+    }else if(isAndroid){
+      let androID = Application.androidId;
       uniqueID = androID
-    }else{
-      uniqueID = Application.getIosIdForVendorAsync();
     }
     await setTodayDate(today)
    // console.log("todays >>>> ", today) //todayDate
@@ -483,7 +487,7 @@ const ToDoListApp = ({navigation, route}) => {
 
   
   return  ready ? <Loading /> : (    // 실제 화면에서 보여지는 내용
-    <SafeAreaView  style={styles.container}>{/* SafeAreaView는 핸드폰 노치나 상태바에 화면이 가져지지 않도록 도와주는 도구*/}
+    <View  style={styles.container}>{/* SafeAreaView는 핸드폰 노치나 상태바에 화면이 가져지지 않도록 도와주는 도구*/}
        <View style={styles.user}>
         <User  />
        </View>
@@ -501,7 +505,7 @@ const ToDoListApp = ({navigation, route}) => {
           value={newTodo}
           onChangeText={setNewTodo}
         />
-        <TouchableOpacity style={styles.addBtn} onPress={handleAddTodo}><Text style={styles.addText}> + </Text></TouchableOpacity>
+        <TouchableOpacity style={styles.addBtn} onPress={handleAddTodo} activeOpacity={0.7}><Text style={styles.addText}> + </Text></TouchableOpacity>
         {/* <Button  title="  +  " onPress={handleAddTodo} /> */}
       </View>
       <View>
@@ -524,10 +528,12 @@ const ToDoListApp = ({navigation, route}) => {
             ></TextInput>
             <View style={styles.comcanBtn}>
             <TouchableOpacity
+              activeOpacity={0.7}
               style={[styles.button, styles.buttonClose]}
               onPress={() => realEdit()}
             ><Text style={styles.textStyle}>  완료  </Text></TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.7} 
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             ><Text style={styles.textStyle}>  취소  </Text></TouchableOpacity>
@@ -547,10 +553,10 @@ const ToDoListApp = ({navigation, route}) => {
                 <Text style={[styles.textSty, item.completed ? styles.completedTotoTitle : null]}
                 onPress={() => toggleTodoCompletion(item.id)}>{item.title}</Text>
                 <View style={[item.type? styles.typeView : null]}><Text style={styles.typeSty}>{item.type}</Text></View>
-                <TouchableOpacity  style={styles.editTouch}onPress={() => {handleEditTodo(item.id, item.title)}}>
+                <TouchableOpacity  style={styles.editTouch}onPress={() => {handleEditTodo(item.id, item.title)}} activeOpacity={0.7}>
                   <Text style={styles.editText}> 수정 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity  style={styles.editTouch} onPress={() => handleDeleteTodo(item.id)}>
+                <TouchableOpacity  style={styles.editTouch} onPress={() => handleDeleteTodo(item.id)} activeOpacity={0.7}>
                   <Text style={styles.editText}> 삭제 </Text>
                 </TouchableOpacity>
               
@@ -567,7 +573,7 @@ const ToDoListApp = ({navigation, route}) => {
       /> 
       {/*<Text>{value}</Text>*/}
       
-    </SafeAreaView>
+    </View>
   );
 };
 // 스타일 입력 ↓
@@ -580,6 +586,7 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
     paddingBottom: 20,
     backgroundColor: "#fbfbff",
     height: windowHeight,
+    
   },
   Headings: {
     flexDirection: 'row',
@@ -633,14 +640,16 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
+    fontSize: 20,
     textAlign: 'center',
     marginTop: 15,
+    fontFamily: 'WomanFlowerB',
   },
   addView:{
     flexDirection: 'row',
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    justifyContent: 'center'
   },
   inputBox: {
     flex: 6,
@@ -653,15 +662,17 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
   },
   addBtn: {
     flex: 1,
+    backgroundColor: "#DCB3FE",
+    borderRadius: 15,
+    marginLeft: 10,
   },
   addText: {
     fontWeight: 700,
     fontSize: 40,
-    backgroundColor: "#DCB3FE",   //<----- A 버튼 색상 값
-    borderRadius: 15,
-    marginLeft: 10,
+    //backgroundColor: "#DCB3FE",   //<----- A 버튼 색상 값
     textAlign: 'center',
-    color: "#fff"
+    color: "#fff",
+    
   },
   listSty: {
     paddingBottom: 20,

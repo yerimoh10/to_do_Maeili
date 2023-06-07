@@ -15,13 +15,15 @@ const AllTodos = ({navigation}) => {
 
     const CallingTodos = async () => {
         let uniqueID
-        if(isAndroid){
-          let androID = await Application.androidId;
+        if(isIOS){
+          let iosId = await Application.getIosIdForVendorAsync();
+          uniqueID=iosId;
           //console.log("Here is Android : ", androID)
+        }else if(isAndroid){
+          let androID = Application.androidId;
           uniqueID = androID
-        }else{
-          uniqueID = Application.getIosIdForVendorAsync();
         }
+        console.log('uniqueID :: ', uniqueID)
         //console.log('uniqueID :: ', uniqueID)
         let time = new Date();
         let todays = "";
@@ -82,7 +84,7 @@ const AllTodos = ({navigation}) => {
 
     return (
         <View>
-             <TouchableOpacity onPress={() => {{setModalVisible(!modalVisible); CallingTodos(); }}}><Image source={alls} style={styles.imageStyle} /></TouchableOpacity>
+             <TouchableOpacity onPress={() => {{setModalVisible(!modalVisible); CallingTodos(); }}} activeOpacity={0.7}><Image source={alls} style={styles.imageStyle} /></TouchableOpacity>
                 
                 <Modal visible={modalVisible}
                         animationType='none'
@@ -95,7 +97,7 @@ const AllTodos = ({navigation}) => {
                             <View style={styles.modalView}>
                               <View style={styles.Header}>
                                 <Text style={styles.title}>  작성한 TO DO 모아보기 </Text>
-                                <TouchableOpacity onPress = { () => {setModalVisible(!modalVisible)}}>
+                                <TouchableOpacity activeOpacity={0.7} onPress = { () => {setModalVisible(!modalVisible)}}>
                                   <Image source={cancel} style={styles.cancelsty}/>
                                 </TouchableOpacity>
                               </View>
@@ -115,8 +117,8 @@ const AllTodos = ({navigation}) => {
 }
 const styles = StyleSheet.create({
   title: {
-    fontWeight: 700,
-    fontSize: 30,
+    fontSize: 25,
+    fontFamily: 'WomanFlowerB',
   },
     imageStyle: {
         //marginLeft: 50,
@@ -153,8 +155,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: 480,
-        width: 350
+        height: '60%',
+        width: '80%'
     },
     listSty: {
       paddingBottom: 20,
@@ -175,11 +177,13 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       textAlignVertical: 'center',
       padding: 2,
+      fontFamily: 'WomanFlower',
     },
     textTitleSty:{
       fontSize: 15,
       flex: 2,
       textAlignVertical: 'center',
+      fontFamily: 'WomanFlower',
     },
     completedTotoTitle: {
       textDecorationLine: 'line-through',

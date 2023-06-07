@@ -120,7 +120,7 @@ const RoutinePage = (props) => {
                     <View style={styles.modalView}>
                         <View style={styles.headingSty}>
                             <Text style={styles.header}>루틴 설정</Text>
-                            <TouchableOpacity onPress ={() => Reset()}>
+                            <TouchableOpacity onPress ={() => Reset()} activeOpacity={0.7}>
                                 <Image source={setting} style={styles.imageStyle}/>
                             </TouchableOpacity>
                         </View>
@@ -134,7 +134,7 @@ const RoutinePage = (props) => {
                             <Month setValue={routineValue}></Month>
                             
                         </View>
-                        <Text>{whichRoutine}</Text>
+                        <Text style={styles.routinetextsty}>{whichRoutine}</Text>
                         {/* <Text>parents value: {props.value}</Text> */}
                         {/* <Text> - 반복할 시간 : {timefromChild}</Text>
                         <Text > - 선택한 요일은 {dayfromChild}</Text>
@@ -144,11 +144,13 @@ const RoutinePage = (props) => {
 
                     <View style={styles.comcanBtn}>{/* complete/cancel button*/}
                     <TouchableOpacity
+                    activeOpacity={0.7}
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => complete()}>{/* 여기서 루틴 설정 값 함수 호출 */}
                         <Text style={styles.textStyle}>  완료  </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                    activeOpacity={0.7}
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => setModalVisible(!modalVisible)}>
                         <Text style={styles.textStyle}>  취소  </Text>
@@ -158,7 +160,7 @@ const RoutinePage = (props) => {
                     </View>
                 </View>
             </Modal>
-            <TouchableOpacity style={styles.editTouch} onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime); CheckingDay();}}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.editTouch} onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime); CheckingDay();}}>
                 <Text style={styles.editText}> 루틴 </Text>
             </TouchableOpacity>
             {/* <Button
@@ -200,14 +202,15 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50,
         margin: 20,
-        marginTop: 40,
+        //marginTop: 40,
         borderRadius: 15,
       },
     textStyle: {
         color: 'white',
-        fontWeight: 'bold',
+        fontSize: 20,
         textAlign: 'center',
-        marginTop: 15
+        marginTop: 15,
+        fontFamily: 'WomanFlowerB',
     },
     comcanBtn:{
         flexDirection: 'row',
@@ -215,11 +218,11 @@ const styles = StyleSheet.create({
     },
     header:{
         fontSize: 30,
-        textDecorationLine: 'underline',
         padding: 10,
         color: '#A76EBE',
         flex: 2,
         marginLeft: 80,
+        fontFamily: 'WomanFlowerB',
     },
     contentsList:{
         flex: 1,
@@ -245,11 +248,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     imageStyle: {
-        //marginLeft: 50,
         flex:1,
-        borderWidth: 1,
         justifyContent: "center",
-        
         width: 30,
         height: 20,
         resizeMode: "contain",
@@ -266,6 +266,10 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontFamily: 'WomanFlower',
     },
+    routinetextsty:{
+        fontFamily: 'WomanFlower',
+        fontSize: 20,
+    }
 });
 
 export default RoutinePage;

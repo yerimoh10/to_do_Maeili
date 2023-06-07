@@ -38,7 +38,7 @@ const DaySelectPage = (props) => {
     return (
         <View>
             <TouchableOpacity style={styles.daytouch}
-            onPress={() => setDayModalVisible(!dayModalVisible)}>
+            onPress={() => setDayModalVisible(!dayModalVisible)} activeOpacity={0.7}>
                 <Text style={styles.dayHeader}> Day </Text></TouchableOpacity>
             <Modal
                 animationType='none'
@@ -83,6 +83,7 @@ const DaySelectPage = (props) => {
                                 
                             </ScrollView>
                             <TouchableOpacity 
+                                    activeOpacity={0.7}
                                     style={styles.buttonClose} 
                                     onPress={()=>complete()}><Text style={styles.textClose}> 닫기 </Text></TouchableOpacity>
                         </View>
@@ -136,9 +137,10 @@ const styles = StyleSheet.create({
     },
     textClose: {
         color: 'white',
-        fontWeight: 'bold',
+        fontSize: 20,
         textAlign: 'center',
-        marginTop: 13,
+        marginTop: 10,
+        fontFamily: 'WomanFlowerB',
     },
     completedTotoTitle: {
         backgroundColor: '#A76EBE'
@@ -146,6 +148,8 @@ const styles = StyleSheet.create({
     dayHeader: {
         textAlign: 'center',
         color: 'white',
+        fontFamily: 'WomanFlowerB',
+        fontSize: 18,
     },
     daytouch: {
         backgroundColor: '#DCB3FE', 
@@ -159,11 +163,14 @@ const styles = StyleSheet.create({
     dayTextsty: {
         marginTop: 4,
         color: 'white',
+        fontFamily: 'WomanFlowerB',
+        fontSize: 20,
     },
     chooseDay: {
         fontSize: 20,
         marginBottom: 10,
-        color: 'white'
+        color: 'white',
+        fontFamily: 'WomanFlowerB',
     },
 });
 

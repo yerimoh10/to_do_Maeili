@@ -70,7 +70,7 @@ const TimeSelectPage = (props) => {
 
     return (
         <View>
-            <TouchableOpacity style={styles.timetouch} onPress={() => setTimeModalVisible(!timeModalVisible)}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.timetouch} onPress={() => setTimeModalVisible(!timeModalVisible)}>
                 <Text style={styles.timeHeader}> Time </Text>
             </TouchableOpacity>
             
@@ -130,7 +130,7 @@ const TimeSelectPage = (props) => {
                                 <Text style={styles.timeTextsty}> 23 </Text></TouchableOpacity>
                             
                         </ScrollView>
-                        <TouchableOpacity style={styles.buttonClose} onPress={() => complete()}>
+                        <TouchableOpacity style={styles.buttonClose} onPress={() => complete()} activeOpacity={0.7}>
                                 <Text style={styles.textClose}> 닫기 </Text></TouchableOpacity>
                     </View>
                     
@@ -184,8 +184,9 @@ const styles = StyleSheet.create({
     },
     textClose: {
         color: 'white',
-        fontWeight: 'bold',
+        fontSize: 20,
         textAlign: 'center',
+        fontFamily: 'WomanFlowerB',
     },
     completedTotoTitle: {
         backgroundColor: '#A76EBE'
@@ -193,7 +194,8 @@ const styles = StyleSheet.create({
     timeHeader: {
         textAlign: 'center',
         color: 'white',
-       // marginTop: 10,
+        fontFamily: 'WomanFlowerB',
+        fontSize: 18,
     },
     timetouch: {
         backgroundColor: '#DCB3FE', 
@@ -206,12 +208,15 @@ const styles = StyleSheet.create({
     },
     timeTextsty: {
         marginTop: 4,
-        color: 'white'
+        color: 'white',
+        fontFamily: 'WomanFlowerB',
+        fontSize: 20,
     },
     chooseTime: {
         fontSize: 20,
         marginBottom: 10,
-        color: '#fff'
+        color: '#fff',
+        fontFamily: 'WomanFlowerB',
     },
 
 });

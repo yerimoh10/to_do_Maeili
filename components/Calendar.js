@@ -195,12 +195,13 @@ function Body(props) {
   const loadingfromFirebase = async () => {
     if(pressedDate.date != 0){
       let uniqueID;
-      if(isAndroid){
-        let androID = Application.androidId;
+      if(isIOS){
+        let iosId = await Application.getIosIdForVendorAsync();
+        uniqueID=iosId;
         //console.log("Here is Android : ", androID)
-        uniqueID = androID;
-      }else{
-        uniqueID = Application.getIosIdForVendorAsync();
+      }else if(isAndroid){
+        let androID = Application.androidId;
+        uniqueID = androID
       }
       const final_day = pressedDate.year.toString() + pressedDate.month + pressedDate.date;
       //console.log("ppppp", final_day);
@@ -220,13 +221,14 @@ function Body(props) {
 
   const savingtoFirebase = async () => {
     let uniqueID;
-      if(isAndroid){
-        let androID = Application.androidId;
-        //console.log("Here is Android : ", androID)
-        uniqueID = androID;
-      }else{
-        uniqueID = Application.getIosIdForVendorAsync();
-      }
+    if(isIOS){
+      let iosId = await Application.getIosIdForVendorAsync();
+      uniqueID=iosId;
+      //console.log("Here is Android : ", androID)
+    }else if(isAndroid){
+      let androID = Application.androidId;
+      uniqueID = androID
+    }
       const final_day = pressedDate.year.toString() + pressedDate.month + pressedDate.date;
       //console.log("ppppp", final_day);
       firebase_db.ref('/to_do/'+ uniqueID +'/'+ final_day).set(todos, function(error){
@@ -337,10 +339,10 @@ function Body(props) {
                 <Text style={[S.textSty, item.completed ? S.completedTotoTitle : null]}
                 onPress={() => toggleTodoCompletion(item.id)}>{item.title}</Text>
                  <View style={[item.type? S.typeView : null]}><Text style={S.typeSty}>{item.type}</Text></View>
-              <TouchableOpacity style={S.editTouch} onPress={() => {handleEditTodo(item.id, item.title)}}>
+              <TouchableOpacity style={S.editTouch} onPress={() => {handleEditTodo(item.id, item.title)}} activeOpacity={0.7}>
                 <Text style={S.editText}> 수정 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={S.editTouch} onPress={() => handleDeleteTodo(item.id)}>
+              <TouchableOpacity style={S.editTouch} onPress={() => handleDeleteTodo(item.id)} activeOpacity={0.7}>
                 <Text style={S.editText}> 삭제 </Text>
               </TouchableOpacity>              
             </View>
@@ -367,10 +369,12 @@ function Body(props) {
             ></TextInput>
             <View style={S.comcanBtn}>
             <TouchableOpacity
+              activeOpacity={0.7}
               style={[S.button, S.buttonClose]}
               onPress={() => realEdit()}
             ><Text style={S.textStyle}>  완료  </Text></TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.7}
               style={[S.button, S.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             ><Text style={S.textStyle}>  취소  </Text></TouchableOpacity>
@@ -509,9 +513,10 @@ const S = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
+    fontSize: 20,
     textAlign: 'center',
-    marginTop: 15
+    marginTop: 15,
+    fontFamily: 'WomanFlowerB',
   },
   textSty: {
     flex: 1,

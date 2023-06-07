@@ -6,13 +6,13 @@ import { Fontisto } from '@expo/vector-icons';
 const API_KEY = "784ab24ff2ed5d94d4288abed9e25d13";
 
 const icons = {
-Clear: "day-sunny",
-Clouds: "cloudy",
-Rain: "rain",
-Atmosphere: "cloudy-gusts",
-Snow: "snow",
-Drizzle: "day-rain",
-Thunderstorm: "lightning",
+  Clear: "day-sunny",
+  Clouds: "cloudy",
+  Rain: "rain",
+  Atmosphere: "cloudy-gusts",
+  Snow: "snow",
+  Drizzle: "day-rain",
+  Thunderstorm: "lightning",
 };
 
 export default function Weather() {
@@ -33,7 +33,9 @@ export default function Weather() {
       { latitude, longitude },
       { useGoogleMaps: false }
     );
-    setCity(location[0].city);
+    if (location.length > 0 && location[0]) {
+      setCity(location[0].city);
+    }
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&units=metric&appid=${API_KEY}`
     );
@@ -45,7 +47,6 @@ export default function Weather() {
   useEffect(() => {
     getWeather();
   }, []);
-  
   return (
     // <SafeAreaView>
       <View style={styles.container}>
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   weather: {
-    fontSize: 13,
+    fontSize: 20,
     marginBottom: 5,
     height: 25,
     fontFamily: 'WomanFlower',
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginTop: 10,
     marginBottom: 10,
+    fontFamily: 'WomanFlowerB',
   },
   city: {
     fontSize: 20,

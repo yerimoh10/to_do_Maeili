@@ -46,7 +46,7 @@ const MonthSelectPage = (props) => {
 
     return(
         <View>
-            <TouchableOpacity style={styles.montouch} onPress={() => setMonthModalVisible(!MonthModalVisible)}>
+            <TouchableOpacity style={styles.montouch} onPress={() => setMonthModalVisible(!MonthModalVisible)} activeOpacity={0.7}>
                 <Text style={styles.monHeader}> Month </Text>
             </TouchableOpacity>
             <Modal
@@ -83,7 +83,7 @@ const MonthSelectPage = (props) => {
                                 <Text style={styles.monthTextsty}> 12월 </Text></TouchableOpacity>
                             
                         </ScrollView>
-                        <TouchableOpacity style={styles.buttonClose} onPress={() => complete()}>
+                        <TouchableOpacity style={styles.buttonClose} onPress={() => complete()} activeOpacity={0.7}>
                                 <Text style={styles.textClose}> 닫기 </Text></TouchableOpacity>
                     </View>
                 </View>
@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
     monHeader: {
         textAlign: 'center',
         color: 'white',
+        fontFamily: 'WomanFlowerB',
+        fontSize: 18,
     },
     monthModalView: {
         flex: 1,
@@ -149,9 +151,10 @@ const styles = StyleSheet.create({
     },
     textClose: {
         color: 'white',
-        fontWeight: 'bold',
+        fontSize: 20,
         textAlign: 'center',
-        marginTop: 13,
+        marginTop: 10,
+        fontFamily: 'WomanFlowerB',
     },
     completedTotoTitle: {
         backgroundColor: '#A76EBE'
@@ -159,11 +162,14 @@ const styles = StyleSheet.create({
     monthTextsty: {
         marginTop: 4,
         color: 'white',
+        fontSize: 20,
+        fontFamily: 'WomanFlowerB',
     },
     chooseMon: {
         fontSize: 20,
         marginBottom: 10,
         color: 'white',
+        fontFamily: 'WomanFlowerB',
     },
 });
 

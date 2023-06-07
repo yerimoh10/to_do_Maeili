@@ -46,7 +46,7 @@ const WeekSelectPage = (props) => {
 
     return(
         <View>
-            <TouchableOpacity style={styles.weektouch} onPress={() => setWeekModalVisible(!WeekModalVisible)}>
+            <TouchableOpacity style={styles.weektouch} onPress={() => setWeekModalVisible(!WeekModalVisible)} activeOpacity={0.7}>
                 <Text style={styles.weekHeader}> Week </Text>
             </TouchableOpacity>
             <Modal
@@ -83,7 +83,7 @@ const WeekSelectPage = (props) => {
                                 <Text style={styles.weekTextsty}> 12 </Text></TouchableOpacity>
                            
                         </ScrollView>
-                        <TouchableOpacity style={styles.buttonClose} onPress={() => complete()}>
+                        <TouchableOpacity style={styles.buttonClose} onPress={() => complete()} activeOpacity={0.7}>
                                 <Text style={styles.textClose}> 닫기 </Text></TouchableOpacity>
                     </View>
                 </View>
@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
     weekHeader: {
         textAlign: 'center',
         color: 'white',
+        fontFamily: 'WomanFlowerB',
+        fontSize: 18,
     },
     weekModalView: {
         flex: 1,
@@ -149,21 +151,25 @@ const styles = StyleSheet.create({
     },
     textClose: {
         color: 'white',
-        fontWeight: 'bold',
+        fontSize: 20,
         textAlign: 'center',
-        marginTop: 13,
+        marginTop: 10,
+        fontFamily: 'WomanFlowerB',
     },
     completedTotoTitle: {
         backgroundColor: '#A76EBE'
     }, 
     weekTextsty: {
         marginTop: 4,
-        color: 'white'
+        color: 'white',
+        fontSize: 20,
+        fontFamily: 'WomanFlowerB',
     },
     chooseWeek: {
         fontSize: 20,
         marginBottom: 10,
         color: 'white',
+        fontFamily: 'WomanFlowerB',
     },
 });
 

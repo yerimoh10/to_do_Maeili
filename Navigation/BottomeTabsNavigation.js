@@ -1,5 +1,4 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -8,11 +7,8 @@ import ToDoListApp from '../pages/ToDoListApp';
 import Memoirs from '../pages/Memoirs';
 import CalendarPage from '../pages/CalendarPage';
 import MyPage from '../pages/MyPage';
-import StackNavigator from './StackNavigator';
-import All from '../pages/AllTodos';
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 const BottomTabsNavigation = () => {
   
@@ -33,8 +29,11 @@ const BottomTabsNavigation = () => {
                 return <Ionicons name="settings-outline" size={30} color={color} />;
             }
           },
-          tabBarActiveTintColor: "black",
-          tabBarInactiveTintColor: "gray",
+          tabBarStyle: {
+            height: '8%',
+          },
+          tabBarActiveTintColor: "#A76EBE",
+          tabBarInactiveTintColor: "#DCB3FE",
         })}
         initialRouteName='Home'
         

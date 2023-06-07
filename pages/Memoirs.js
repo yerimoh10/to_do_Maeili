@@ -42,12 +42,13 @@ export default function Memoirs() {
     //firebase에 추가 
      // memos 밑에 사용자 밑에 쭉 기록하는 방식으로 저장함
     let uniqueID
-    if(isAndroid){
-      let androID = await Application.androidId;
+    if(isIOS){
+      let iosId = await Application.getIosIdForVendorAsync();
+      uniqueID=iosId;
       //console.log("Here is Android : ", androID)
-      uniqueID = androID
-    }else{
-      uniqueID = Application.getIosIdForVendorAsync();
+    }else if(isAndroid){
+      let androID = Application.androidId;
+      uniqueID = androID;
     }
    await firebase_db.ref('/memos/' + uniqueID).set(memoirs, function(error){
     if(null){
@@ -61,13 +62,14 @@ export default function Memoirs() {
      //firebase에 추가 
      // 사용자  밑에 memos 밑에 쭉 기록하는 방식으로 저장함
      let uniqueID
-      if(isAndroid){
-        let androID = await Application.androidId;
-        //console.log("Here is Android : ", androID)
-        uniqueID = androID
-      }else{
-        uniqueID = Application.getIosIdForVendorAsync();
-      }
+     if(isIOS){
+      let iosId = await Application.getIosIdForVendorAsync();
+      uniqueID=iosId;
+      //console.log("Here is Android : ", androID)
+    }else if(isAndroid){
+      let androID = Application.androidId;
+      uniqueID = androID;
+    }
     await firebase_db.ref('/memos/' + uniqueID).once('value').then((snapshot) => {
       let mms = snapshot.val();
       console.log("mmms---------> ", mms);
@@ -110,14 +112,14 @@ export default function Memoirs() {
   
   if(writeMode){ 
     return (
-      <SafeAreaView style={styles.firSafeAreaView}>
+      <View style={styles.firSafeAreaView}>
         <View style={styles.firContainer}>
 
           <View style={styles.btnWork}>
-            <TouchableOpacity style={styles.btnClick} onPress={()=>setWriteMode(false)}>
+            <TouchableOpacity style={styles.btnClick} onPress={()=>setWriteMode(false)} activeOpacity={0.7}>
               <Text style={styles.btnText}>취소</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnClick} onPress={()=>addMemoir()}>
+            <TouchableOpacity style={styles.btnClick} onPress={()=>addMemoir()} activeOpacity={0.7}>
               <Text style={styles.btnText}>저장</Text>
             </TouchableOpacity>
           </View>
@@ -131,12 +133,12 @@ export default function Memoirs() {
           </View>
 
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView style={styles.secSafeAreaView}>
+    <View style={styles.secSafeAreaView}>
       <View style={styles.header}>
         <Text style={styles.memoTitle}>회고록</Text>
       </View>
@@ -145,7 +147,7 @@ export default function Memoirs() {
 
         <View style={styles.addBtn}>
           <View style={styles.addBtnStyle}>
-            <TouchableOpacity onPress={()=>setWriteMode(true)}>
+            <TouchableOpacity activeOpacity={0.7} onPress={()=>setWriteMode(true)}>
               <Text style={styles.font}>Write</Text>
             </TouchableOpacity>
           </View>
@@ -160,7 +162,7 @@ export default function Memoirs() {
           <Text style={styles.quoteView}>{quote}</Text>{/* 첫 화면이 좀 심심해서 넣었습니당.. */}
           </View>
 
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -261,7 +263,6 @@ const styles = StyleSheet.create({
   marginBottom: 10,
   margin: 5,
   backgroundColor: '#f6ebff',
-  height: 70,
   fontFamily: 'WomanFlower',
   fontWeight: 600,
   fontSize: 20,

@@ -13,7 +13,8 @@ export default function App() {
   const getFonts = async () => {
     await Font.loadAsync({
       'DancingScript-Bold' : require('./assets/fonts/DancingScript-Bold.ttf'),
-      'WomanFlower' : require('./assets/fonts/DXWomanflowerM-KSCpc-EUC-H.ttf')
+      'WomanFlower' : require('./assets/fonts/DXWomanflowerM-KSCpc-EUC-H.ttf'),
+      'WomanFlowerB' : require('./assets/fonts/DXWomanflowerB-KSCpc-EUC-H.ttf')
     });
     onChangeLoading(true);
   }
