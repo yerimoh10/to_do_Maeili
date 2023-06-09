@@ -8,12 +8,13 @@ function BasicButton({
   width,
   height,
   color,
+  marginTop = '50%',
 }) {
   return (
     <Pressable
       style={[
         S.button,
-        { backgroundColor: backgroudColor, width: width, height: height },
+        { backgroundColor: backgroudColor, width: width, height: height, marginTop: marginTop },
       ]}
       onPress={onPress}
     >

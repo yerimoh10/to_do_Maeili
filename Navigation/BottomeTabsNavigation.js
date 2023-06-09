@@ -32,6 +32,10 @@ const BottomTabsNavigation = () => {
           tabBarStyle: {
             height: '8%',
           },
+          tabBarLabelStyle: {
+            fontFamily: 'WomanFlower',
+            marginBottom: 5,          
+          },
           tabBarActiveTintColor: "#A76EBE",
           tabBarInactiveTintColor: "#DCB3FE",
         })}

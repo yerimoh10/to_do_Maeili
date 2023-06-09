@@ -48,7 +48,7 @@ export default function Weather() {
     getWeather();
   }, []);
   return (
-    // <SafeAreaView>
+    
       <View style={styles.container}>
         <View style={styles.day}>
           <View style={styles.left}>
@@ -65,7 +65,7 @@ export default function Weather() {
           </View>
         </View>
       </View>
-    // </SafeAreaView>
+   
   );
 }
 
@@ -73,9 +73,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 0,
-   // marginTop: 7,
-    //padding: 8,
-    
   },
   day: {
     flex: 0.3,
@@ -92,9 +89,6 @@ const styles = StyleSheet.create({
   descreption: {
     justifyContent: "center",
     alignItems: "center",
-   // marginRight: 10,
-    //marginLeft: 10,
-   // marginTop: 15,
     height: 40,
   },
   temp: {
@@ -109,11 +103,9 @@ const styles = StyleSheet.create({
     fontFamily: 'WomanFlower',
   },
   left:{
-   // marginTop: 5,
     flexDirection: "column", 
     alignItems: "center",
     padding: 5,
-   // margin: 5,
   },
 
 });

@@ -50,7 +50,7 @@ const DaySelectPage = (props) => {
                     <View style={styles.daymodalView}>
                         <View style={styles.scrollSty}>
                         <Text style={styles.chooseDay}>반복할 요일을 선택하세요</Text>
-                            <ScrollView>{/*contentContainerStyle={{flexGrow:1}}*/}
+                            <ScrollView>
                                 
                                 <TouchableOpacity style={[styles.daysty, dayValue == '1'? styles.completedTotoTitle : !styles.completedTotoTitle]} 
                                     onPress={() => days('Mon')}>
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 300,
         width: 280,
-        //borderWidth:1,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

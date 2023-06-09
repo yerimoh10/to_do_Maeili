@@ -45,16 +45,11 @@ const TodaysPage = (props) => {
     }
     useEffect(() => {
        if(first){
-//        let day = time.getDate();
         setDDD(day)
        }
     },[])
     
-    // const LDay = new Date(year, month-1, 0) // 지난달의 마지막 날 구하기
-    // const lastDay = LDay.getDate();
-    //console.log("last day --> " , LDay.getDate())
 
-    
 
     return (
         <View style={styles.todayy}>
@@ -79,7 +74,7 @@ const styles = StyleSheet.create({
     daystouch: {
         flexDirection: 'row',
         margin: 5,
-        //
+     
     },
     daystext: {
         margin: 5,
@@ -90,15 +85,12 @@ const styles = StyleSheet.create({
     },
     todayText:{
         fontWeight: 700,
-        color: 'pink', // 나중에 변경
+        color: 'pink', 
         
     },
     imageStyle: {
-        //marginLeft: 50,
         flex:1,
-        //borderWidth: 1,
         justifyContent: "center",
-        
         width: 30,
         height: 20,
         resizeMode: "contain",

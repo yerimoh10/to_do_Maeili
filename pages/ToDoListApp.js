@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, TextInput,StyleSheet, Button, Text, Modal, SafeAreaView, Image, Alert,TouchableOpacity, Platform } from 'react-native';
-import * as FileSystem from 'expo-file-system';
 import Routine from '../components/RoutinePage';  // 루틴관리하는 자식 컴포넌트
 import { firebase_db } from "../firebaseConfig";
 import * as Application from 'expo-application';
@@ -30,7 +29,6 @@ const ToDoListApp = ({navigation, route}) => {
   const [ready, setReady] = useState(true);
   const [firstSave, setFirstSave] = useState(false);
   const [wholeTo_do, setWholeTo_do] = useState([]);
-  console.log("tttt", windowHeight)
 
 
   var timer_id=-1;
@@ -59,39 +57,30 @@ const ToDoListApp = ({navigation, route}) => {
             //db 저장
             // active
             console.log("commmmmmmmm  : ", todo.completed)
-            //if(todo.completed){
-              todo.completed = false
-            //}
+            todo.completed = false
+
             console.log("changeeeeeee  : ", todo.completed)
             saveTodosToJson(todayDate);
-            loadTodosFromJson(todayDate); // 로드
+            loadTodosFromJson(todayDate);
           }
           const minee = (diff/60)
           console.log("분으로 : ", calcu_min);
         } 
         if (todo.type == 'Day') {
           let routine = Number(todo.routine);
-          
-          // let createTime = new Date(Number(todo.id))
-          // let org_sec = Math.floor((createTime.getTime()) / 1000); 
-          // console.log(todo.title, "org sec : ", org_sec);
 
           const date = new Date();
-          // const diff = Math.floor((date.getTime()) / 1000);
-          // console.log(todo.title, "cur sec : ", diff);
-          // const diff_sec = diff - org_sec;
-          // const calcu_min = Math.floor(diff_sec %(routine*60)); //3600 시간으로
 
           if (date.getHours()==0 && date.getMinutes()==0 && date.getSeconds() == 0 &&  
               routine == date.getDay() && todo.completed) { // 요일 
             //db 저장
             // active
             console.log("commmmmmmmm  : ", todo.completed)
-            todo.completed = false  // 
+            todo.completed = false 
             
             console.log("changeeeeeee  : ", todo.completed)
             saveTodosToJson(todayDate);
-            loadTodosFromJson(todayDate);  // 로드
+            loadTodosFromJson(todayDate); 
           }
         }
         if (todo.type == 'Week') {
@@ -112,14 +101,12 @@ const ToDoListApp = ({navigation, route}) => {
             //db 저장
             // active
             console.log("commmmmmmmm  : ", todo.completed)
-            //if(todo.completed){
               todo.completed = false
-            //}
             console.log("changeeeeeee  : ", todo.completed)
             saveTodosToJson(todayDate);
-            loadTodosFromJson(todayDate);  // 로드
+            loadTodosFromJson(todayDate); 
           }
-          //const minee = (diff/60)
+
           console.log("주으로 : ", calcu_min);
         } 
         if (todo.type == 'Month') {
@@ -140,7 +127,7 @@ const ToDoListApp = ({navigation, route}) => {
                 todo.completed = false
                 console.log("changeeeeeee  : ", todo.completed)
                 saveTodosToJson(todayDate);
-                loadTodosFromJson(todayDate);   // 로드
+                loadTodosFromJson(todayDate);   
               }
             }
           }
@@ -153,22 +140,18 @@ const ToDoListApp = ({navigation, route}) => {
         clearTimeout(timer_id);
 
     timer_id = setTimeout(() => {
-      // do your work
       checkRoutine();
-      //timer();
     }, 1000);
  }
  
  checkRoutine();
-// navigation.navigate('')
   useEffect(() => {
     setTimeout(() => {
 
-      loadTodosFromJson(); // 로드
+      loadTodosFromJson(); 
       todaysDate();
       setFirstSave(true);
       setReady(false);
-      //saveTodosToJson();
     }, 2000 ) // 2초 지연 시간 줌
     
     console.log("todos : ", todos)
@@ -191,7 +174,6 @@ const ToDoListApp = ({navigation, route}) => {
     if(isIOS){
       let iosId = await Application.getIosIdForVendorAsync();
       uniqueID=iosId;
-      //console.log("Here is Android : ", androID)
     }else if(isAndroid){
       let androID = Application.androidId;
       uniqueID = androID
@@ -209,19 +191,7 @@ const ToDoListApp = ({navigation, route}) => {
     
     todays += year+month + day;
     currentTime = todays + hours + mins + secs;
-    //setTodayDate(todays)
-    //console.log("todays >>>> ", todayDate)
-    //console.log( "todays >>>> ",Date.now())
-      // const d = new Date(1684345701141)
-      // const diff = (Date.now() - d.getTime()) / 1000;
-      // console.log("다른 시간 ", diff)
-    // 루틴 반복 기능 
-    // const routinevalfromtype = {}; // 루틴 값 가져오기
-     
-    // const idfromtodos = [];
     todos.map((todo) => {
-      //console.log(todo.type) // 투두의 타입 가져오기
-      //console.log(Number(todo.id))
       if(todo.type){
         let createTime = new Date(Number(todo.id))
         const diff = (Date.now() - createTime.getTime()) / 1000;
@@ -230,86 +200,44 @@ const ToDoListApp = ({navigation, route}) => {
         console.log("밀리 초 --> 분으로 : ", minee)
       }
 
-      // let rTYPE = todo.type
-      // const idtype = { rID : rTYPE}
-      // setrvalue([...rvalue, idtype])
-      //routinevalfromtype.push( todo.id , todo.routine)
     });
-    
-    //{ ...todo, title: edited } : todo 
-    // firebase_db.ref('/to_do/'+uniqueID+'/'+todays).once('value').then((snapshot) => {
-    //   let td = snapshot.val();
-    //   //console.log("ID   :   ", snapshot.val()[0].type) // 아이디 접근 방법
-    //  // console.log("ID22   :   ", snapshot.val()[1].type)
-    //   let ddd = todos.map((todo) => {
-    //     console.log(todo.type) // 투두의 타입 가져오기
-    //     routinevalfromtype.push(todo.routine)
-    //   });
-    //   console.log("리스트: ", routinevalfromtype)
-    // });
+
   }
   const todo_array =[];
 
   const loadTodosFromJson = async (today) => {   // 내장된 파일에 저장되어 있는 todo를 로딩하는 함수
       try {
-    //     const result = await FileSystem.readAsStringAsync(
-    //     FileSystem.documentDirectory + 'todos.json' //todos.json
-    //   );
-    //   const todosData = JSON.parse(result);
-    //   setTodos(todosData.todos || []);
-    //   console.log(">>>>>>>>>>>>>>>>>>", todosData)
-      let uniqueID
-      if(isIOS){
-        let iosId = await Application.getIosIdForVendorAsync();
-        uniqueID=iosId;
-        //console.log("Here is Android : ", androID)
-      }else if(isAndroid){
-        let androID = Application.androidId;
-        uniqueID = androID
-      }
-      let time = new Date();
-      let todays = "";
-      let year = time.getFullYear().toString();
-      let month = time.getMonth() + 1;
-      let day = time.getDate();
-      todays += year+month + day;
-      todo_array.length = 0;
-      let tt = today;
-      /*await firebase_db.ref('/to_do/' + uniqueID+'/').once('value').then((snapshot) => {
-        //let contents = snapshot.val();
-        const todolist = [];
-        //setWholeTo_do([]);
-        for (var i in snapshot.val()) {
-          //console.log("snapshot::: :: ", snapshot.val()[i])
-          snapshot.val()[i].map((toDo) => {
-            todolist.push(toDo)
-            //setWholeTo_do([...wholeTo_do, toDo]);
-            
-            //wholeTo_do.push(toDo) 
-            //console.log("array-----------------------   ", todolist)
-          })
-
-       //setTodos(to_do);
-      }
-      setWholeTo_do(todolist);
-      //console.log("Whooooooooole -----> ", wholeTo_do)
-        //console.log('This is contents : : : ', contents)
-      })*/
-      //console.log("확인: ", tt?tt:todays)
-      final_day = tt?tt:todays
-      await firebase_db.ref('/to_do/'+uniqueID+'/'+ final_day).once('value').then((snapshot) => {
-        let td = snapshot.val();
-        // 모든 todo 불러오기 
-        // 해당되는 todo - 루틴 설정 된 것들만 time 무조건, day: 해당 요일 되는 얘들만 출력. 
-        // 루틴 설정을 안 한 얘들 다 보여줌. --> 취소. 그대로 감.
-        if(td){
-          setTodos(td)
-        }else{
-          setTodos([])
-          console.log("엘스ㅡㅡ")
+        let uniqueID
+        if(isIOS){
+          let iosId = await Application.getIosIdForVendorAsync();
+          uniqueID=iosId;
+         
+        }else if(isAndroid){
+          let androID = Application.androidId;
+          uniqueID = androID
         }
+        let time = new Date();
+        let todays = "";
+        let year = time.getFullYear().toString();
+        let month = time.getMonth() + 1;
+        let day = time.getDate();
+        todays += year+month + day;
+        todo_array.length = 0;
+        let tt = today;
+        
+        final_day = tt?tt:todays
+        await firebase_db.ref('/to_do/'+uniqueID+'/'+ final_day).once('value').then((snapshot) => {
+          let td = snapshot.val();
+          // 모든 todo 불러오기 
+          // 해당되는 todo - 루틴 설정 된 것들만 time 무조건, day: 해당 요일 되는 얘들만 출력. 
+          // 루틴 설정을 안 한 얘들 다 보여줌. --> 취소. 그대로 감.
+          if(td){
+            setTodos(td)
+          }else{
+            setTodos([])
+            console.log("엘스ㅡㅡ")
+          }
       });
-      //console.log("uniq UDDDDDDDDDDD : ", uniqueID)
     } catch (error) {
       console.log('Error while reading todos from JSON file: here', error);
     }
@@ -317,10 +245,6 @@ const ToDoListApp = ({navigation, route}) => {
 
   const saveTodosToJson = async (today) => {       // 생성된 투두를 내장 파일에 저장하는 함수
      try {
-    //   await FileSystem.writeAsStringAsync(
-    //     FileSystem.documentDirectory + 'todos.json',
-    //     JSON.stringify({ todos })
-    //   );
       //firebase에 투두 저장
       let uniqueID;
 
@@ -332,21 +256,12 @@ const ToDoListApp = ({navigation, route}) => {
         let androID = Application.androidId;
         uniqueID = androID
       }
-      //console.log('uniqueID :: ', uniqueID)
-      // firebase_db.ref('/to_do/'+uniqueID+'/').set(todos, function(error){ // '/to_do'+ uniqueID +'/'
       let time = new Date();
       let todays = "";
       let year = time.getFullYear().toString();
       let month = time.getMonth() + 1;
       let day = time.getDate();
       todays += year+month + day;
-      // todos.map((todo) => {
-      //   firebase_db.ref('/to_do/'+ uniqueID +'/'+ todays +'/' + todo.id).set(todo, function(error){
-      //     if(null){
-      //       console.log("This is error", error)
-      //     }        
-      //   });
-      // });
       let tt = today;
       final_day = tt?tt:todays
       firebase_db.ref('/to_do/'+ uniqueID +'/'+ final_day).set(todos, function(error){
@@ -356,13 +271,13 @@ const ToDoListApp = ({navigation, route}) => {
       });
     } catch (error) {
       console.log('Error while saving todos to JSON file:', error);
-      //console.log("todos ---> ", todos);
+      
     }
   };
 
   const handleAddTodo = async () => {       // add 버튼 누르면 실행되는 함수. 
     if (newTodo.trim()) {
-      //await todaysDate();
+      
               let time = new Date();
               let todays = "";
               let year = time.getFullYear().toString();
@@ -411,19 +326,11 @@ const ToDoListApp = ({navigation, route}) => {
     }
   };
   const handleDeleteTodo = (id) => {    // delete 버튼 눌렀을 떄 실행되는 함수
-    //const updatedTodos = [...todos];
-    //updatedTodos.splice(index, 1);
+
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
-    loadTodosFromJson(todayDate);  // 로드
+    loadTodosFromJson(todayDate);  
   };
-
-  // const checkingID = (itemID) => {
-  //   //setRoutineID("");
-  //   console.log("넘어오는 값: ", itemID);
-  //   setRoutineID(itemID);
-  //   console.log("루틴 아이디: ", routineID);
-  // };
 
   const checkingRoutine = (rvalue) => {
     if(rvalue){
@@ -434,13 +341,9 @@ const ToDoListApp = ({navigation, route}) => {
         r_id=result[2].trim();
       }
       
-      //setRoutineID(result[2]);
-      //console.log("result[2]   :  ", result[2], "       루틴 아이디: ", routineID);
-      //let r_num = Number(result[1]);
       let r_num = result[1]
       console.log("루틴 숫자들 : ", r_num);
-     // console.log("============================================", r_id);
-      //console.log("todos : ", todos);
+  
       const updatedTodos = todos.map((todo) =>
         todo.id === r_id ? { ...todo, routine: r_num, type: result[0] } : todo // 3항 연산
       );
@@ -454,37 +357,14 @@ const ToDoListApp = ({navigation, route}) => {
     if(isIOS){
       let iosId = await Application.getIosIdForVendorAsync();
       uniqueID=iosId;
-      //console.log("Here is Android : ", androID)
     }else if(isAndroid){
       let androID = Application.androidId;
       uniqueID = androID
     }
-    await setTodayDate(today)
-   // console.log("todays >>>> ", today) //todayDate
+     setTodayDate(today)
+   
     loadTodosFromJson(today)
   };
-
-  const makingRoutine = () => {
-    let time = new Date();
-    let todays = "";
-    let year = time.getFullYear().toString();
-    let month = time.getMonth() + 1;
-    let day = time.getDate();
-    
-    todays += year+month + day;
-    firebase_db.ref('/to_do/'+uniqueID+'/'+todays).once('value').then((snapshot) => {
-      let td = snapshot.val();
-      console.log("ID   :   ", snapshot.val()[0].type) // 아이디 접근 방법
-      console.log("ID22   :   ", snapshot.val()[1].type)
-      // if(td){
-      //   console.log("여기: ", td)
-      // }else{
-      //   //setTodos(tdList)
-      //   console.log("엘스ㅡㅡ")
-      // }
-    });
-  }
-
   
   return  ready ? <Loading /> : (    // 실제 화면에서 보여지는 내용
     <View  style={styles.container}>{/* SafeAreaView는 핸드폰 노치나 상태바에 화면이 가져지지 않도록 도와주는 도구*/}
@@ -505,8 +385,8 @@ const ToDoListApp = ({navigation, route}) => {
           value={newTodo}
           onChangeText={setNewTodo}
         />
-        <TouchableOpacity style={styles.addBtn} onPress={handleAddTodo} activeOpacity={0.7}><Text style={styles.addText}> + </Text></TouchableOpacity>
-        {/* <Button  title="  +  " onPress={handleAddTodo} /> */}
+        <TouchableOpacity style={styles.addBtn} onPress={handleAddTodo} activeOpacity={0.7}><Text style={isAndroid? styles.addText_andro : styles.addText_ios}> + </Text></TouchableOpacity>
+      
       </View>
       <View>
       <Modal visible={modalVisible} // <-- edit 모달을 위에다 미리 작성함
@@ -520,11 +400,11 @@ const ToDoListApp = ({navigation, route}) => {
          <View style={styles.modalEditView}>
           <View style={styles.modalView}>
             <TextInput
-                //value={edited}//edited
+                
                 defaultValue= {editTitle}
                 style={styles.editSty}
                 onChangeText={setEdited}
-                //onPressIn={() => console.log("edit: ", editTitle)}
+                
             ></TextInput>
             <View style={styles.comcanBtn}>
             <TouchableOpacity
@@ -545,7 +425,7 @@ const ToDoListApp = ({navigation, route}) => {
        
       <FlatList // 작성한 todo들이 FlatList에 의해 보여지게 됨.
         style={styles.listSty}
-        data={todos} //todos    wholeTo_do
+        data={todos} 
         renderItem={({ item, index }) => (
           <View >
             <View style={styles.listView}>
@@ -571,7 +451,6 @@ const ToDoListApp = ({navigation, route}) => {
         
         keyExtractor={(item, index) => index.toString()}
       /> 
-      {/*<Text>{value}</Text>*/}
       
     </View>
   );
@@ -662,17 +541,24 @@ const styles = StyleSheet.create({  //각 이름 검색해보면 어디서 사�
   },
   addBtn: {
     flex: 1,
-    backgroundColor: "#DCB3FE",
+    backgroundColor: "#DCB3FE", //<----- A 버튼 색상 값
     borderRadius: 15,
     marginLeft: 10,
-  },
-  addText: {
-    fontWeight: 700,
-    fontSize: 40,
-    //backgroundColor: "#DCB3FE",   //<----- A 버튼 색상 값
-    textAlign: 'center',
-    color: "#fff",
     
+  },
+  addText_ios: {
+    fontWeight: 700,
+    fontSize: 40, 
+    //textAlign: 'center',
+    justifyContent: 'center',
+    color: "#fff",    
+  },
+  addText_andro: {
+    fontWeight: 700,
+    fontSize: 40, 
+    textAlign: 'center',
+    justifyContent: 'center',
+    color: "#fff",    
   },
   listSty: {
     paddingBottom: 20,

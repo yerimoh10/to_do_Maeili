@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 
 import { StatusBar } from 'react-native-web';
 import {NavigationContainer} from '@react-navigation/native';
-import StackNavigator from './Navigation/StackNavigator'
 import BottomNavigator from './Navigation/BottomeTabsNavigation'
 import * as Font from 'expo-font';
 
@@ -19,9 +18,6 @@ export default function App() {
     onChangeLoading(true);
   }
 
-  // if (!fontLoaded) {
-  //   return null;
-  // }
   useEffect ( () => {
     getFonts();
   },[])
@@ -31,11 +27,8 @@ export default function App() {
     return(
       <NavigationContainer>
         <StatusBar style="black"/>
-      {/* <TodoApp/> */}
       
-        <BottomNavigator>
-          {/* <StackNavigator/>    */}
-        </BottomNavigator>
+        <BottomNavigator />
         
       </NavigationContainer>
       )

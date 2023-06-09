@@ -45,7 +45,6 @@ export default function Memoirs() {
     if(isIOS){
       let iosId = await Application.getIosIdForVendorAsync();
       uniqueID=iosId;
-      //console.log("Here is Android : ", androID)
     }else if(isAndroid){
       let androID = Application.androidId;
       uniqueID = androID;
@@ -65,7 +64,6 @@ export default function Memoirs() {
      if(isIOS){
       let iosId = await Application.getIosIdForVendorAsync();
       uniqueID=iosId;
-      //console.log("Here is Android : ", androID)
     }else if(isAndroid){
       let androID = Application.androidId;
       uniqueID = androID;

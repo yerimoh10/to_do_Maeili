@@ -5,13 +5,11 @@ import Time from './TimeSelectPage';
 import Week from './WeekSelectPage';
 import Month from './MonthSelectPage';
 import setting from "../assets/setting_pic.png";
-import { firebase_db } from "../firebaseConfig";
-import * as Application from 'expo-application';
+
 
 // 루틴 설정 페이지
 
 const RoutinePage = (props) => {
-    //console.log(props.value)
     const [modalVisible, setModalVisible] = useState(false);
     const [whichRoutine, setWhichRoutine] = useState('');
     const [original, setOriginal] = useState('');
@@ -24,9 +22,9 @@ const RoutinePage = (props) => {
         }
     }
     function sendData(){ // 완료 버튼 때 실행되게 만들기
-        //props.setResult(props.value);
+       
         let vvalue = original + ", " + props.value
-        //console.log("vvalue : ", vvalue)
+        
         props.setValue(vvalue);
     };
     
@@ -47,22 +45,6 @@ const RoutinePage = (props) => {
             routineText(result[0], result[1])
         }
         
-        // console.log("resut1  ", typeof(result[1]))
-        // console.log("resut1  ", result[1])
-        // switch(result[0]){
-        //     case 'Time':
-        //         vv = result[1] + '시간 마다 반복';
-        //         return setWhichRoutine(vv);
-        //     case 'Day':
-        //         vv = result[1] + '요일 마다 반복';
-        //         return setWhichRoutine(vv);
-        //     case 'Week':
-        //         vv = result[1] + '주 마다 반복';
-        //         return setWhichRoutine(vv);
-        //     case 'Month':
-        //         vv = result[1] + '달 마다 반복';
-        //         return setWhichRoutine(vv);
-        // }
     };
     const routineText = (textValue, rtime) => {
         let vv;
@@ -95,7 +77,6 @@ const RoutinePage = (props) => {
     };
 
     const complete = () => {
-        //console.log("original : ", original)
         sendData();
         setModalVisible(!modalVisible);
     };
@@ -113,7 +94,6 @@ const RoutinePage = (props) => {
                 transparent={true}
                 
                 onRequestClose={() => {
-                //Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.modalRoutineView}>
@@ -125,22 +105,13 @@ const RoutinePage = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.contentsList}>
-                          {/*<View style={styles.viewsty}></View>*/}
                             <Time setValue={routineValue}></Time>
-                                {/*<Text style={styles.contentText}>요일 Day </Text>
-                            <View style={styles.dayChildsty}></View>*/}
                             <Day setValue={routineValue}></Day>
                             <Week setValue={routineValue}></Week>
                             <Month setValue={routineValue}></Month>
                             
                         </View>
                         <Text style={styles.routinetextsty}>{whichRoutine}</Text>
-                        {/* <Text>parents value: {props.value}</Text> */}
-                        {/* <Text> - 반복할 시간 : {timefromChild}</Text>
-                        <Text > - 선택한 요일은 {dayfromChild}</Text>
-                        <Text> - 반복할 주 : {weekfromChild}주</Text>
-                        <Text> - 반복할 달 : {monthfromChild}월 </Text> */}
-
 
                     <View style={styles.comcanBtn}>{/* complete/cancel button*/}
                     <TouchableOpacity
@@ -163,11 +134,7 @@ const RoutinePage = (props) => {
             <TouchableOpacity activeOpacity={0.7} style={styles.editTouch} onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime); CheckingDay();}}>
                 <Text style={styles.editText}> 루틴 </Text>
             </TouchableOpacity>
-            {/* <Button
-            title='루틴'
-            onPress={() => {setModalVisible(!modalVisible); routineText(props.rvalue, props.rtime); CheckingDay();}}>
-            </Button> */}
-            {/*<Text>전달 받은 {props.value}</Text>*/}
+            
         </View>
     );
 };

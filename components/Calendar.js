@@ -224,13 +224,11 @@ function Body(props) {
     if(isIOS){
       let iosId = await Application.getIosIdForVendorAsync();
       uniqueID=iosId;
-      //console.log("Here is Android : ", androID)
     }else if(isAndroid){
       let androID = Application.androidId;
       uniqueID = androID
     }
       const final_day = pressedDate.year.toString() + pressedDate.month + pressedDate.date;
-      //console.log("ppppp", final_day);
       firebase_db.ref('/to_do/'+ uniqueID +'/'+ final_day).set(todos, function(error){
         if(null){
           console.log("This is error", error)
@@ -258,13 +256,10 @@ function Body(props) {
       );
       setTodos(updatedTodos);
       setEdited('');
-      //setEditTitle('');
       setModalVisible(!modalVisible);
     }
   };
   const handleDeleteTodo = (id) => {    // delete 버튼 눌렀을 떄 실행되는 함수
-    //const updatedTodos = [...todos];
-    //updatedTodos.splice(index, 1);
     console.log("현재 todososo", id)
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
@@ -326,14 +321,14 @@ function Body(props) {
           })
         )}
       </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
-                <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-                <View><Text style={S.headerText}>날짜별 TODO</Text></View>
-                <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-            </View>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+          <View><Text style={S.headerText}>날짜별 TODO</Text></View>
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      </View>
       <FlatList // 작성한 todo들이 FlatList에 의해 보여지게 됨.
         style={S.listSty}
-        data={todos} //todos    wholeTo_do
+        data={todos}
         renderItem={({ item, index }) => (
             <View style={S.listView}>
                 <Text style={[S.textSty, item.completed ? S.completedTotoTitle : null]}
@@ -456,7 +451,8 @@ const S = StyleSheet.create({
   },
   listSty: {
     paddingBottom: 20,
-    marginBottom: 40
+    marginBottom: 10,
+    height: '30%',
   }, 
   listView: {
     flexDirection: 'row',

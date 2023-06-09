@@ -2,6 +2,8 @@ import { View, Text, Button, StyleSheet} from "react-native";
 import BasicButton from "../components/Button/BasicButton";
 import { useState } from "react";
 import BasicModal from "../components/Modal/BasicModal";
+import Timer from "../components/Timer"
+
 function MyPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const handleModalVisible = (boolean = false) => {
@@ -14,8 +16,7 @@ function MyPage() {
         style={{
           alignItems: "center",
           justifyContent: "center",
-          marginTop: 350,
-          marginBottom: 400, // 배경화면 채우기 위한 margin 
+          height: '50%',
         }}
       >
         <BasicButton
@@ -35,6 +36,7 @@ function MyPage() {
         </View>
         </BasicModal>
       </View>
+      <Timer />
     </View>
   );
 }

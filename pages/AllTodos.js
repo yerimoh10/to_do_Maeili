@@ -2,7 +2,6 @@ import React, { useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList } from "react-native";
 import { firebase_db } from "../firebaseConfig";
 import * as Application from 'expo-application';
-import {Dimensions} from 'react-native';
 import alls from "../assets/all.png";
 import cancel from "../assets/cancel.png";
 
@@ -18,13 +17,13 @@ const AllTodos = ({navigation}) => {
         if(isIOS){
           let iosId = await Application.getIosIdForVendorAsync();
           uniqueID=iosId;
-          //console.log("Here is Android : ", androID)
+          
         }else if(isAndroid){
           let androID = Application.androidId;
           uniqueID = androID
         }
         console.log('uniqueID :: ', uniqueID)
-        //console.log('uniqueID :: ', uniqueID)
+       
         let time = new Date();
         let todays = "";
         let year = time.getFullYear().toString();
@@ -34,25 +33,15 @@ const AllTodos = ({navigation}) => {
       
         
         await firebase_db.ref('/to_do/' + uniqueID+'/').once('value').then((snapshot) => {
-          //let contents = snapshot.val();
+
            const todolist = [];
-        //   //setWholeTo_do([]);
-        //   console.log("=================================")
-        //   setDic(snapshot.val())
-        //  // console.log(dic)
-        //   for (var i in snapshot.val()) {
-        //     //console.log("snapshot::: :: ", snapshot.val()[i])
-        //     snapshot.val()[i].map((toDo) => {
-        //       todolist.push(toDo)
-        //     })
-        //    }
-        // setWholeTo_do(todolist);
+
         
         snapshot.forEach((childSnapshot) => {
           var childKey = childSnapshot.key;
           var childData = childSnapshot.val();
          for(var i in childData){
-          //console.log("ChildDate -> ", childData[i].title);
+
           const newItem = {
               "key" : childKey, 
               "titles" : childData[i].title,
@@ -117,7 +106,7 @@ const AllTodos = ({navigation}) => {
 }
 const styles = StyleSheet.create({
   title: {
-    fontSize: 25,
+    fontSize: 22,
     fontFamily: 'WomanFlowerB',
   },
     imageStyle: {
