@@ -5,10 +5,11 @@ function BasicButton({
   title = "Button",
   backgroudColor = "#a36ff7",
   fontSize = 20,
-  width,
+  width = '40%',
   height,
-  color,
-  marginTop = '50%',
+  color = 'white',
+  marginTop='20%',
+  
 }) {
   return (
     <Pressable
@@ -29,18 +30,20 @@ const S = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 6,
-    paddingHorizontal: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
     borderRadius: 4,
     elevation: 3,
   },
   text: {
-    fontStyle: "italic",
+    //fontStyle: "italic",
     fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "700",
+    //lineHeight: 21,
+    fontWeight: "600",
+    textAlign: 'center',
     letterSpacing: 0.25,
-    color: "mauve",
+    //color: "mauve",
+    fontFamily: 'WomanFlowerB',
   },
 });
 export default BasicButton;

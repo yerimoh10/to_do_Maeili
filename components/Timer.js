@@ -68,6 +68,8 @@ const styles = StyleSheet.create({
     borderRadius:10,
     textAlign: "center",
     height: '50%',
+    width: '100%',
+  
   },
   timerText: {
     textAlign: "center",

@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
 import banner from "../assets/banner.jpg"
+import { firebase_db } from "../firebaseConfig";
+import * as Application from 'expo-application';
+
+
+const isAndroid = Platform.OS === 'android';
+const isIOS = Platform.OS === 'ios';
 
 export default function UserName() {
   const [name, setName] = useState('');
   const [usernames, setUsernames] = useState([]);
-  const [showInput, setShowInput] = useState(true);
+  const [showInput, setShowInput] = useState(true); // 처음 상태는 true
+  const [uniqueID, setUniqueID] = useState('');
+
+  useEffect(() => {
+    unique();
+    loadUserName();
+  },[usernames])
+
+  const unique = async () => {
+
+    if(isIOS){
+      let iosId = await Application.getIosIdForVendorAsync();
+      setUniqueID(iosId)
+      //console.log("Here is Android : ", iosId)
+    }else if(isAndroid){
+      let androID = Application.androidId;
+      setUniqueID(androID)
+    }
+  }
 
   const handleSave = async () => {
     try {
@@ -13,11 +37,24 @@ export default function UserName() {
         await saveUsername(name);
         const updatedUsernames = [name];
         setUsernames(updatedUsernames);
-        setName('');
+        //setName('');
         setShowInput(false);
+
+        console.log("tthhdd", name)
+        firebase_db.ref('/username/'+ uniqueID).set(name, function(error){
+          if(null){
+            console.log("This is error", error)
+          }        
+        });
+
+
       } else {
         setShowInput(!showInput);
         setUsernames([]);
+        setName('');
+        console.log("저장누름")
+        firebase_db.ref('/username/'+ uniqueID).remove();
+
       }
     } catch (error) {
       console.error('Failed to save username:', error);
@@ -30,6 +67,8 @@ export default function UserName() {
   };
 
   const saveUsername = async (username) => {
+    
+
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('Name saved:', username);
@@ -37,6 +76,41 @@ export default function UserName() {
         // reject(new Error('Failed to save username'));
       });
     });
+  };
+
+  const loadUserName = async() => {
+    await firebase_db.ref('/username/'+ uniqueID).once('value', (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        var childData = childSnapshot.val();
+        console.log("data", childData);
+        if(childData){
+          if(showInput){
+            //saveUsername(childSnapshot);
+            setShowInput(false);
+            setName(childData);
+            const updatedUsernames = [childData];
+            setUsernames(updatedUsernames);
+          }
+        } else{
+          // setShowInput(true);
+          // setName('')
+          console.log("엘스ㅡㅡ")
+        }
+      });
+      // let td = snapshot.val();
+      // if(td){
+      //   if(showInput){
+      //     setShowInput(false);
+      //     setName(td);
+      //     const updatedUsernames = [td];
+      //     setUsernames(updatedUsernames);
+      //     console.log("[td]")
+      //      console.log("loading user name: ", td);
+      //   }
+      //   //console.log("있음", td)
+      //}
+     
+  });
   };
 
   return (

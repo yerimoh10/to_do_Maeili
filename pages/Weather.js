@@ -36,12 +36,14 @@ export default function Weather() {
     if (location.length > 0 && location[0]) {
       setCity(location[0].city);
     }
+    console.log("city : " , location.length);
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&units=metric&appid=${API_KEY}`
     );
     const json = await response.json();
     setDays(json.daily);
     setCurrentTemp(json.current.temp);
+    console.log(city)
   };
 
   useEffect(() => {
