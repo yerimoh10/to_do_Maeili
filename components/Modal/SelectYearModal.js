@@ -27,7 +27,7 @@ function SelectYearModal({
             <View style={S.button} key={year}>
               <BasicButton
                 title={year}
-                fontSize={12}
+                fontSize={20}
                 color={"white"}
                 height={40}
                 onPress={handlePressYear.bind(

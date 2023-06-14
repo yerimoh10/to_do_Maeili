@@ -13,12 +13,22 @@ export default function UserName() {
   const [usernames, setUsernames] = useState([]);
   const [showInput, setShowInput] = useState(true); // 처음 상태는 true
   const [uniqueID, setUniqueID] = useState('');
+  const [pressed, setPressed] = useState(false);
 
-  useEffect(() => {
+   useEffect(() => {
     unique();
-    loadUserName();
-  },[usernames])
 
+   }, [])
+
+  useEffect( ()=> {
+    if(uniqueID){
+       loadUserName();
+    }
+    
+  },[uniqueID])
+      
+  
+  
   const unique = async () => {
 
     if(isIOS){
@@ -27,7 +37,8 @@ export default function UserName() {
       //console.log("Here is Android : ", iosId)
     }else if(isAndroid){
       let androID = Application.androidId;
-      setUniqueID(androID)
+      setUniqueID(androID);
+      console.log("Here is Android : ", androID)
     }
   }
 
@@ -52,6 +63,7 @@ export default function UserName() {
         setShowInput(!showInput);
         setUsernames([]);
         setName('');
+        setPressed(false);
         console.log("저장누름")
         firebase_db.ref('/username/'+ uniqueID).remove();
 
@@ -62,13 +74,14 @@ export default function UserName() {
   };
 
   const handleNamePress = () => {
+    setPressed(true);
     setShowInput(true);
-    setUsernames([]);
+    setUsernames([]); 
   };
 
   const saveUsername = async (username) => {
     
-
+   
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('Name saved:', username);
@@ -80,23 +93,21 @@ export default function UserName() {
 
   const loadUserName = async() => {
     await firebase_db.ref('/username/'+ uniqueID).once('value', (snapshot) => {
-      snapshot.forEach((childSnapshot) => {
-        var childData = childSnapshot.val();
-        console.log("data", childData);
-        if(childData){
-          if(showInput){
-            //saveUsername(childSnapshot);
-            setShowInput(false);
-            setName(childData);
-            const updatedUsernames = [childData];
+      var value = snapshot.val()
+      //console.log("UniQUEID: ", uniqueID)
+      if(value){
+        console.log("This is", value)
+        if(pressed == false){
+            setName(value);
+            const updatedUsernames = [value];
             setUsernames(updatedUsernames);
+            setShowInput(false);
           }
         } else{
           // setShowInput(true);
           // setName('')
           console.log("엘스ㅡㅡ")
         }
-      });
       // let td = snapshot.val();
       // if(td){
       //   if(showInput){

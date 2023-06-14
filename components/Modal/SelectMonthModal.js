@@ -25,7 +25,7 @@ function SelectMonthModal({
             <View style={S.button} key={month}>
               <BasicButton
                 title={month}
-                fontSize={12}
+                fontSize={20}
                 color={"white"}
                 height={40}
                 onPress={handlePressYear.bind(
@@ -49,7 +49,7 @@ const S = StyleSheet.create({
   },
   button: {
     marginHorizontal: 4,
-    marginVertical: 2,
+    marginVertical: 1,
     width: "30%",
   },
 });

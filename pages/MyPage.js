@@ -1,5 +1,5 @@
 import { View, Text, Button, StyleSheet, Image } from "react-native";
-import BasicButton from "../components/Button/BasicButton";
+import BasicButton from "../components/Button/BasicButton_mypage";
 import { useState } from "react";
 import BasicModal from "../components/Modal/BasicModal";
 import Timer from "../components/Timer"
@@ -56,7 +56,7 @@ function MyPage() {
     29: require("../assets/가이드화면/회고록(3).png"),
     30: require("../assets/가이드화면/환경설정(1).png"),
     31: require("../assets/가이드화면/환경설정(2).png"),
-    32: require("../assets/가이드화면/환경설정(3).png"), 
+    //32: require("../assets/가이드화면/환경설정(3).png"), 
   };
 
   const handleNextStep = () => {
@@ -151,7 +151,7 @@ function MyPage() {
                       color="#DCB3FE"
                     />
                   )}
-                  {currentStep >= 30 && currentStep < 32 && (
+                  {currentStep >= 30 && currentStep < 31 && (
                     <Button
                       title="다음"
                       onPress={handleNextStep}

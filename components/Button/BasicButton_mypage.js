@@ -5,10 +5,10 @@ function BasicButton({
   title = "Button",
   backgroudColor = "#a36ff7",
   fontSize = 20,
-  width = '100%',
+  width = '40%',
   height,
   color = 'white',
-  marginTop='10%',
+  marginTop='20%',
   
 }) {
   return (
@@ -30,8 +30,8 @@ const S = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    //paddingVertical: 20,
-    //paddingHorizontal: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
     borderRadius: 4,
     elevation: 3,
   },
