@@ -1,8 +1,13 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet,StatusBar } from "react-native";
 import Calendar from "../components/Calendar";
 function CalendarPage() {
   return (
     <View style={S.calendarContainer}>
+      <StatusBar
+        animated={true}
+        backgroundColor="#fff"
+        barStyle={'dark-content'}
+      />
       <Calendar />
     </View>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, SafeAreaView, FlatList} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, SafeAreaView, FlatList, StatusBar} from 'react-native';
 import { firebase_db } from "../firebaseConfig";
 import * as Application from 'expo-application';
 
@@ -111,6 +111,11 @@ export default function Memoirs() {
   if(writeMode){ 
     return (
       <View style={styles.firSafeAreaView}>
+        <StatusBar
+        animated={true}
+        backgroundColor="#fff"
+        barStyle={'dark-content'}
+      />
         <View style={styles.firContainer}>
 
           <View style={styles.btnWork}>

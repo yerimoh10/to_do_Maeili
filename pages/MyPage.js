@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet, Image } from "react-native";
+import { View, Text, Button, StyleSheet, Image, StatusBar } from "react-native";
 import BasicButton from "../components/Button/BasicButton_mypage";
 import { useState } from "react";
 import BasicModal from "../components/Modal/BasicModal";
@@ -72,6 +72,11 @@ function MyPage() {
   return (
     
     <View style={S.Safeareaview}>
+      <StatusBar
+        animated={true}
+        backgroundColor="#fbfbff"
+        barStyle={'dark-content'}
+      />
       <View style={S.headerview}> 
 
         <Text style={[S.header]}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, TextInput,StyleSheet, Button, Text, Modal, SafeAreaView, Image, Alert,TouchableOpacity, Platform } from 'react-native';
+import { View, FlatList, TextInput,StyleSheet, Button, Text, Modal, SafeAreaView, Image, Alert,TouchableOpacity, Platform, StatusBar, } from 'react-native';
 import Routine from '../components/RoutinePage';  // 루틴관리하는 자식 컴포넌트
 import { firebase_db } from "../firebaseConfig";
 import * as Application from 'expo-application';
@@ -368,6 +368,11 @@ const ToDoListApp = ({navigation, route}) => {
   
   return  ready ? <Loading /> : (    // 실제 화면에서 보여지는 내용
     <View  style={styles.container}>{/* SafeAreaView는 핸드폰 노치나 상태바에 화면이 가져지지 않도록 도와주는 도구*/}
+      <StatusBar
+        animated={true}
+        backgroundColor="#fbfbff"
+        barStyle={'dark-content'}
+      />
        <View style={styles.user}>
         <User  />
        </View>
